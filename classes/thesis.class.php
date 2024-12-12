@@ -47,17 +47,6 @@ Class Thesis{
         return $data;
     }
 
-    function fetchAllThesis(){
-        $sql = "SELECT thesis.*, accounts.username FROM thesis
-                LEFT JOIN accounts ON thesis.groupID = accounts.ID" ;
-        $qry = $this->db->connect()->prepare($sql);
-
-        $qry->execute();
-        $data = $qry->fetchAll(PDO::FETCH_ASSOC);
-
-        return $data;
-    }
-
     function fetchgroupID($thesisID){
         $sql = "SELECT groupID from thesis WHERE thesisID = :thesisID" ;
         $qry = $this->db->connect()->prepare($sql);
@@ -187,21 +176,6 @@ Class Thesis{
 
         return $data;
     }
-
-    function fetchThesisApproval($thesisID, $staffID){
-        $sql = "SELECT COUNT(*) from thesis_approval WHERE thesisID = :thesisID AND staffID = :staffID";
-        $qry = $this->db->connect()->prepare($sql);
-
-        $qry->bindParam(":thesisID", $thesisID);
-        $qry->bindParam(":staffID", $staffID);
-
-        $qry->execute();
-        $data = $qry->fetchColumn();
-
-        return $data;
-
-    }
-    
 
     function passtoApproval($staffID, $thesisID, $groupID, $status){
         $sql2 = "INSERT INTO thesis_approval (staffID, groupID, thesisID, status)
@@ -367,7 +341,7 @@ Class Thesis{
         $qry->execute();
         $data = $qry->fetch(PDO::FETCH_ASSOC);
 
-return $data;
+    return $data;
     }
 
     function confirmEdit($thesisID, $thesisTitle, $datePublished, $reqID){
@@ -384,8 +358,6 @@ return $data;
         $qry3->bindParam(":thesisID", $thesisID);
 
         $qry3->execute();
-
-        
 
             $sql = "UPDATE thesis SET thesisTitle = :thesisTitle, datePublished = :datePublished WHERE thesisID = :thesisID";
             $qry = $this->db->connect()->prepare($sql);
@@ -485,101 +457,22 @@ return $data;
         return $qry->execute(); 
     }
 
-    function searchAndSortTheses($searchTerm, $sortBy = 'datePublished', $sortOrder = 'ASC', $filters = []) {
-        $sql = "SELECT thesis.datePublished, accounts.username, thesis.advisorName, thesis.thesisID, thesis.thesisTitle, thesis.status 
-                FROM thesis
-                LEFT JOIN accounts ON thesis.groupID = accounts.ID WHERE (thesisTitle LIKE :searchTerm OR advisorName LIKE :searchTerm)";
-    
-        // Add additional filters to the WHERE clause
-        if (!empty($filters['status'])) {
-            $sql .= " AND status = :status";
-        }
-        
-        // Add sorting to the query
-        $sql .= " ORDER BY " . $sortBy . " " . $sortOrder;
-    
-            // Get the database connection
-            $connection = $this->db->connect();
-    
-            // Prepare the SQL query
-            $qry = $connection->prepare($sql);
-    
-            // Bind the search term to the query with wildcards for partial matching
-            $searchTermWithWildcards = "%" . $searchTerm . "%";
-            $qry->bindParam(":searchTerm", $searchTermWithWildcards, PDO::PARAM_STR);
-    
-            // Bind additional filters to the query
-            if (!empty($filters['status'])) {
-                $qry->bindParam(":status", $filters['status'], PDO::PARAM_STR);
-            }
-    
-            // Execute the query
-            $qry->execute();
-    
-            // Fetch the results as an associative array
-            $results = $qry->fetchAll(PDO::FETCH_ASSOC);
-    
-            // Return the results, or an empty array if no matches
-            return $results;
-
-    }
     function searchAndSortApprovedTheses($searchTerm) {
         $sql = "SELECT thesis.datePublished, accounts.username, thesis.advisorName, thesis.thesisTitle, thesis.abstract
                 FROM thesis
                 LEFT JOIN accounts ON thesis.groupID = accounts.ID WHERE (thesisTitle LIKE :searchTerm OR advisorName LIKE :searchTerm) AND thesis.status = 'Approved'";
+            
+            $qry = $this->db->connect()->prepare($sql);
     
-            // Get the database connection
-            $connection = $this->db->connect();
-    
-            // Prepare the SQL query
-            $qry = $connection->prepare($sql);
-    
-            // Bind the search term to the query with wildcards for partial matching
             $searchTermWithWildcards = "%" . $searchTerm . "%";
             $qry->bindParam(":searchTerm", $searchTermWithWildcards, PDO::PARAM_STR);
     
-            // Execute the query
             $qry->execute();
     
-            // Fetch the results as an associative array
             $results = $qry->fetchAll(PDO::FETCH_ASSOC);
     
-            // Return the results, or an empty array if no matches
             return $results;
         }
-
-    function searchAndSortPendingTheses($searchTerm, $sortBy = 'datePublished', $sortOrder = 'ASC', $filters = []) {
-        // Modify the SQL query to only consider status = 'Pending'
-        $sql = "SELECT thesis.datePublished, accounts.username, thesis.advisorName, thesis.thesisID, thesis.thesisTitle, thesis.status
-                FROM thesis
-                LEFT JOIN accounts ON thesis.groupID = accounts.ID
-                WHERE (thesis.thesisTitle LIKE :searchTerm OR thesis.advisorName LIKE :searchTerm)
-                AND thesis.status = 'Pending'";  // Status is always 'Pending'
-    
-        // Add sorting to the query
-        $sql .= " ORDER BY " . $sortBy . " " . $sortOrder;
-    
-            // Get the database connection
-            $connection = $this->db->connect();
-    
-            // Prepare the SQL query
-            $qry = $connection->prepare($sql);
-    
-            // Bind the search term to the query with wildcards for partial matching
-            $searchTermWithWildcards = "%" . $searchTerm . "%";
-            $qry->bindParam(":searchTerm", $searchTermWithWildcards, PDO::PARAM_STR);
-    
-            // Execute the query
-            $qry->execute();
-    
-            // Fetch the results as an associative array
-            $results = $qry->fetchAll(PDO::FETCH_ASSOC);
-    
-            // Return the results, or an empty array if no matches
-            return $results;
-
-    }
-    
 
     function validateRejection($thesisID){
         $sql = "SELECT COUNT(*) from thesis_approval WHERE thesisID = :thesisID AND status = 'Rejected'" ;

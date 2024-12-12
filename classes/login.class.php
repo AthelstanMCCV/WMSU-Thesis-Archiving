@@ -115,29 +115,6 @@ require_once __DIR__ . "/db_connection.class.php";
 
         return $data;
     }
-    
-        
-        
-    
-
-    //     # TEMPORARY ADD TO INPUT ADMIN ACCOUNT
-    //     function add(){ 
-    //     $sql = "INSERT INTO accounts (username, password, role, description, status) 
-    //     VALUES (:username, :password, 2, 'hi Im staff', NULL)";
-    //     $qry = $this->db->connect()->prepare($sql);
-
-    //     $hashPass = password_hash($this->password, PASSWORD_DEFAULT);
-
-    //     $qry->bindParam(":username", $this->username);
-    //     $qry->bindParam(":password", $hashPass);
-
-    //     return $qry->execute();
-    // }
-        
     }
-
-    // $testObj = new Login;
-    // $testObj->add();
-
 
 ?>

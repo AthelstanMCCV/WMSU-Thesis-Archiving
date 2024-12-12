@@ -195,55 +195,5 @@ require_once __DIR__ . "/db_connection.class.php";
         return $qry->execute();
     }
 
-    function searchAndSortAccounts($searchTerm, $sortBy = 'date_created', $sortOrder = 'ASC', $filters = []) {
-        // Base SQL query
-        $sql = "SELECT *
-                FROM accounts
-                WHERE (username LIKE :searchTerm OR email LIKE :searchTerm OR department LIKE :searchTerm OR course LIKE :searchTerm)";
-        
-        // Add department filter if provided
-        if (!empty($filters['department'])) {
-            $sql .= " AND department = :department"; // 'department' corresponds to 'department'
-        }
-    
-        // Add course filter if provided
-        if (!empty($filters['course'])) {
-            $sql .= " AND course = :course";
-        }
-    
-        // Add sorting to the query
-        $sql .= " ORDER BY " . $sortBy . " " . $sortOrder;
-    
-            // Get the database connection
-            $qry = $this->db->connect()->prepare($sql);
-    
-            // Bind the search term to the query with wildcards for partial matching
-            $searchTermWithWildcards = "%" . $searchTerm . "%";
-            $qry->bindParam(":searchTerm", $searchTermWithWildcards);
-    
-            // Bind additional filters to the query
-            if (!empty($filters['department'])) {
-                $qry->bindParam(":department", $filters['department']);
-            }
-            if (!empty($filters['course'])) {
-                $qry->bindParam(":course", $filters['course']);
-            }
-    
-            // Execute the query
-            $qry->execute();
-    
-            // Fetch the results as an associative array
-            $results = $qry->fetchAll(PDO::FETCH_ASSOC);
-    
-            // Return the results, or an empty array if no matches
-            return $results;
-    
-
-    }
-    
-    
-    
-
 }
-    //
 ?>
