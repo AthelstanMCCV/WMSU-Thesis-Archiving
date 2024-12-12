@@ -81,7 +81,9 @@
 #sidebar-navlink-container{
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
+    width: 100%;
 }
 
 .sidebar-navlink{
@@ -91,7 +93,7 @@
     justify-content: start;
     align-items: center;
     width: 100%;
-    padding: 0 20px;
+    padding: 0 20px 0 80px;
     margin-bottom: 25px;
 }
 
