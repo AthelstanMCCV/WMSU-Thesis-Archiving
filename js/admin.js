@@ -129,7 +129,7 @@ $(document).ready(function () {
     function Logout() {
         $.ajax({
         type: "GET",
-        url: "../modals/navbar-modal.html",
+        url: "../modals/navbar-modal.php",
         dataType: "html",
             success: function (view) {
                 $(".modal-container").empty().html(view);

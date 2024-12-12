@@ -6,8 +6,8 @@ require_once __DIR__ . "/db_connection.class.php";
 
         public $id;       
         public $groupName;
-        public $username = "schoolibrary";
-        public $password = "admin";
+        public $username;
+        public $password;
         public $dept;
         public $course;
         public $email;

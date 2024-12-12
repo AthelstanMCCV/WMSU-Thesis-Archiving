@@ -184,6 +184,21 @@
     margin-bottom: 20px;
 }
 
+table.dataTable tbody td {
+    text-align: center;
+    vertical-align: middle;
+  }
+
+table.dataTable td.dt-type-numeric{
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  table.dataTable td.dt-type-date{
+    text-align: center;
+    vertical-align: middle;
+  }
+
 .page-link{
     color: red;
 }
@@ -307,4 +322,34 @@ table>thead>tr th:last-child{
 td.action {
     display: table-cell !important;
     visibility: visible !important;
+}
+
+#Accountstatus{
+    display: flex;
+}
+
+#AccountstatusText{
+    color: white;
+    background-color: green;
+    width: 80px;
+    height: 30px;
+    text-align: center;
+    border-radius: 20px;
+    margin-left: 10px;
+}
+
+
+#Accountstatus>strong{
+    color: black;
+}
+
+#modal-body-content{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#accountProfile{
+    width: 120px;
+    height: 120px;
 }
