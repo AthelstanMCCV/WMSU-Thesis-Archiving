@@ -43,8 +43,8 @@ $(document).ready(function () {
               success: function (response) {
                 $("#dashboard-main-display").html(response);
                     var table = $("#staff-thesis-list").DataTable({
-                        dom: "rtp", // Set DataTable options
-                        pageLength: 10, // Default page length
+                        dom: "irtp", // Set DataTable options
+                        pageLength: 6, // Default page length
                         ordering: false, // Disable ordering
                     });
 
@@ -167,8 +167,8 @@ $(document).ready(function () {
               success: function (response) {
                 $("#dashboard-main-display").html(response);
                     var table = $("#staff-thesis-list").DataTable({
-                        dom: "rtp", // Set DataTable options
-                        pageLength: 10, // Default page length
+                        dom: "irtp", // Set DataTable options
+                        pageLength: 6, // Default page length
                         ordering: false, // Disable ordering
                     });
 
@@ -187,8 +187,8 @@ $(document).ready(function () {
               success: function (response) {
                 $("#dashboard-main-display").html(response);
                     var table = $("#staff-thesis-list").DataTable({
-                        dom: "rtp", // Set DataTable options
-                        pageLength: 10, // Default page length
+                        dom: "irtp", // Set DataTable options
+                        pageLength: 6, // Default page length
                         ordering: false, // Disable ordering
                     });
 
@@ -207,8 +207,8 @@ $(document).ready(function () {
               success: function (response) {
                 $("#dashboard-main-display").html(response);
                     var table = $("#staff-thesis-list").DataTable({
-                        dom: "rtp", // Set DataTable options
-                        pageLength: 10, // Default page length
+                        dom: "irtp", // Set DataTable options
+                        pageLength: 6, // Default page length
                         ordering: false, // Disable ordering
                     });
 

@@ -148,8 +148,8 @@ $(document).ready(function () {
                 $("#dashboard-main-display").html(response);
 
                 var table = $("#pending-students-table").DataTable({
-                    dom: "rtp", // Set DataTable options
-                    pageLength: 10, // Default page length
+                    dom: "irtp", // Set DataTable options
+                    pageLength: 6, // Default page length
                     ordering: false, // Disable ordering
                 });
 
@@ -169,8 +169,8 @@ $(document).ready(function () {
                 $("#dashboard-main-display").html(response);
                 
                 var table = $("#group-list").DataTable({
-                    dom: "rtp", // Set DataTable options
-                    pageLength: 10, // Default page length
+                    dom: "irtp", // Set DataTable options
+                    pageLength: 6, // Default page length
                     ordering: false, // Disable ordering
                 });
 
@@ -190,8 +190,8 @@ $(document).ready(function () {
                 $("#dashboard-main-display").html(response);
 
                 var table = $("#archives-table").DataTable({
-                    dom: "rtp", // Set DataTable options
-                    pageLength: 10, // Default page length
+                    dom: "irtp", // Set DataTable options
+                    pageLength: 6, // Default page length
                     ordering: false, // Disable ordering
                 });
 

@@ -8,5 +8,6 @@
         <?php require_once '../vendor/bootstrap-5.3.3-dist/css/bootstrap.min.css'; ?>
         <?php require_once '../vendor/datatable-2.1.8/datatables.min.css'; ?>
         <?php require_once '../css/style.css'; ?>
+        
     </style>
 </head>
