@@ -1,12 +1,12 @@
 <!-- Modal -->
-<div class="modal fade" id="addThesisModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="addMemberModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="staticBackdropLabel">Add Thesis Record</h5>
+          <h5 class="modal-title" id="staticBackdropLabel">Add Member Record</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div> 
-        <form action="" method="post" id="form-add-thesis">
+        <form action="" method="post" id="form-add-modal">
             <div class="modal-body">
                 <div class="mb-2">
                     <label for="studentID" class="form-label">Student ID</label>
@@ -16,7 +16,7 @@
             
                 <div class="mb-2">
                     <label for="lastName" class="form-label">Last Name</label>
-                    <input type="password" name="lastName" id="lastName" class="form-control" placeholder="Last Name">
+                    <input type="text" name="lastName" id="lastName" class="form-control" placeholder="Last Name">
                     <div class="invalid-feedback"></div>
                 </div>
             
@@ -30,25 +30,12 @@
                     <input type="text" name="middleName" id="middleName" class="form-control" placeholder="Middle Name">
                     <div class="invalid-feedback"></div>
                 </div>    
-                <div class="mb-2">
-                    <label for="datePublished" class="form-label">Published Date</label>
-                    <input type="date" name="datePublished" id="datePublished" class="form-control" placeholder="Date Published">
-                    <div class="invalid-feedback"></div>
-                </div> 
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-danger brand-bg-color">Add Member</button>
             </div>
-
         </form>
       </div>
     </div>
 </div>
-<form action="" method="POST">
-    <input type="text" name="thesisTitle" id="thesisTitle" placeholder="Thesis Title">
-    <input type="text" name="advisorName" id="advisorName" placeholder="Advisor Name">
-    <input type="text" name="shortDesc" id="shortDesc" placeholder="Short Description">
-    <input type="date" name="datePublished" id="datePublished">
-    <input type="submit" name="addThesis" value="Add Thesis">
-</form>

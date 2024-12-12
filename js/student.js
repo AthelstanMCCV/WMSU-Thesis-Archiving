@@ -273,8 +273,77 @@ $(document).ready(function () {
                     $("#staff-thesis-search").on("keyup", function () {
                         table.search(this.value).draw(); // Search products based on input
                     });
+
+                    $("#addMemberBtn").on("click", function (e) {
+                        e.preventDefault();
+                        showMemberModal();
+                    });
                 },
             });
+        }
+
+        function showMemberModal() {
+            $.ajax({
+            type: "GET",
+            url: "../modals/addMember-modal.html",
+            dataType: "html",
+                success: function (view) {
+                    $(".modal-container").empty().html(view);
+                    $("#addMemberModal").modal("show");
+
+                    $("#form-add-modal").on("submit", function (e) {
+                        e.preventDefault(); // Prevent default form submission
+                        addMember(); // Call function to save product
+                      });
+                },
+                });
+        };
+
+        function addMember(){
+            $.ajax({
+                type: "POST", // Use POST request
+                url: "../student-functions/addMember.php", // URL for saving product
+                data: $("form").serialize(), // Serialize the form data for submission
+                dataType: "json", // Expect JSON response
+                success: function (response){
+                    console.log(response);
+                    if (response.status === "error"){
+                        if (response.studIDErr) {
+                            $("#studentID").addClass("is-invalid"); // Mark field as invalid
+                            $("#studentID").next(".invalid-feedback").text(response.studIDErr).show(); // Show error message
+                        }else{
+                            $("#studentID").removeClass("is-invalid"); // Remove invalid class if no error
+                        }
+    
+                        if (response.lastNameErr) {
+                            $("#lastName").addClass("is-invalid"); // Mark field as invalid
+                            $("#lastName").next(".invalid-feedback").text(response.lastNameErr).show(); // Show error message
+                        }else{
+                            $("#lastName").removeClass("is-invalid"); // Remove invalid class if no error
+                        }
+    
+                        if (response.firstNameErr) {
+                            $("#firstName").addClass("is-invalid"); // Mark field as invalid
+                            $("#firstName").next(".invalid-feedback").text(response.firstNameErr).show(); // Show error message
+                        }else{
+                            $("#firstName").removeClass("is-invalid"); // Remove invalid class if no error
+                        }
+
+                        if (response.middleNameErr) {
+                            $("#middleName").addClass("is-invalid"); // Mark field as invalid
+                            $("#middleName").next(".invalid-feedback").text(response.middleNameErr).show(); // Show error message
+                        }else{
+                            $("#middleName").removeClass("is-invalid"); // Remove invalid class if no error
+                        }
+                    }else if (response.status === "success") {
+                        // On success, hide modal and reset form
+                        $("#addMemberModal").modal("hide");
+                        $("form")[0].reset(); // Reset the form
+                        // Optionally, reload products to show new entry
+                        memberList();
+                      }
+                }
+            })
         }
     
         function trackThesis() {
