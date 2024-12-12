@@ -196,6 +196,19 @@ require_once __DIR__ . "/db_connection.class.php";
         return $qry->execute();
     }
 
+    function fetchAccountData($ID){
+        $sql = "SELECT *, departmentName, courseName from accounts LEFT JOIN courses ON accounts.course = courses.courseID
+        LEFT JOIN department ON accounts.department = department.departmentID WHERE accounts.ID = :ID";
+        $qry = $this->db->connect()->prepare($sql);
+
+        $qry->bindParam(":ID", $ID);
+        
+        $qry->execute();
+        $data = $qry->fetch(PDO::FETCH_ASSOC);
+
+        return $data;
+    }
+
 
 
     

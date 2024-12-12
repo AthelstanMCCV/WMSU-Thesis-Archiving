@@ -1,6 +1,10 @@
 <?php
     session_start();
+    require_once "../classes/account.class.php";
+    $accountObj = new Accounts;
     
+    $accountData = $accountObj->fetchAccountData($_SESSION['account']['ID']);
+
 ?>
 
 <!-- Modal -->
@@ -26,9 +30,9 @@
                     }?>
                 </p>
                 <?php if($_SESSION['account']['role'] == 3){ ?>
-                    <p><strong>Email: </strong><?php echo $_SESSION['account']['email'] ?></p>
-                    <p><strong>Department: </strong><?php echo $_SESSION['account']['department'] ?></p>
-                    <p><strong>Course: </strong><?php echo $_SESSION['account']['course'] ?></p>
+                    <p><strong>Email: </strong><?php echo $accountData['email'] ?></p>
+                    <p><strong>Department: </strong><?php echo $accountData['departmentName'] ?></p>
+                    <p><strong>Course: </strong><?php echo $accountData['courseName'] ?></p>
                 <?php } ?>
                 <p id="Accountstatus"><strong>Status: </strong><span id="AccountstatusText"><?php if($_SESSION['account']['status'] === "Approved"){
                         echo "Active";
