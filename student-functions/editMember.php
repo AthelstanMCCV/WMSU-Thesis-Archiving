@@ -1,4 +1,5 @@
 <?php 
+session_start();
 require_once "../classes/group.class.php";
 
 $groupObj = new Group;
@@ -6,7 +7,6 @@ $studID = $_GET['id'];
 
 $memberData = $groupObj->fetchMemberData($studID);
 
-var_export($memberData);
 if( $_SERVER['REQUEST_METHOD'] == "POST"){
     $groupObj->cleanMembers();
 

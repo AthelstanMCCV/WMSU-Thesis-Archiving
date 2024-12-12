@@ -43,10 +43,19 @@ Class Group{
         $qry->bindParam(":ID", $ID);
 
         $qry->execute();
-        
+
         $data = $qry->fetch(PDO::FETCH_ASSOC);
 
         return $data;
+    }
+
+    function deleteMember($ID){
+        $sql = "DELETE FROM groupmembers WHERE studentID = :ID";
+        $qry = $this->db->connect()->prepare($sql);
+
+        $qry->bindParam(":ID", $ID);
+
+        return $qry->execute();
     }
 
     function editMembers($ID){
