@@ -327,10 +327,12 @@ $(document).ready(function () {
                     $("#response").text(response.message); // Show error message
                 }
                 $("#confirmModal").modal("hide"); // Close the modal
+                location.reload();
             },
             error: function () {
                 $("#response").text("Error processing the request."); // Handle AJAX errors
                 $("#confirmModal").modal("hide"); // Close the modal
+                location.reload();
             },
         });
     });
@@ -396,10 +398,12 @@ $(document).ready(function () {
                         $("#response").text(response.message); // Show error message
                     }
                     $("#rejectModal").modal("hide"); // Close the modal
+                    location.reload();
                 },
                 error: function () {
                     $("#response").text("Error processing the request."); // Handle AJAX errors
                     $("#rejectModal").modal("hide"); // Close the modal
+                    location.reload();
                 },
             });
         });
@@ -424,10 +428,12 @@ $(document).ready(function () {
                     $("#response").text(response.message); // Show error message
                 }
                 $("#rejectModal").modal("hide"); // Close the modal
+                location.reload();
             },
             error: function () {
                 $("#response").text("Error processing the request."); // Handle AJAX errors
                 $("#rejectModal").modal("hide"); // Close the modal
+                location.reload();
             },
         });
     });

@@ -288,8 +288,23 @@ table>thead>tr th:last-child{
     align-items: center;
 }
 
+#addStaff{
+    color: white;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 #addIcon{
     margin-left: 5px;
     font-weight: 400;
     font-size: 14px;
+}
+
+td.action {
+    display: table-cell !important;
+    visibility: visible !important;
 }

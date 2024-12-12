@@ -10,20 +10,31 @@ if (isset($_SESSION['currThesis']['ID'])){
     if($thesisObj->checkApproval($_SESSION['account']['ID'],$_SESSION['currThesis']['ID'])){ ?>
         
         <script>
-        $(document).ready(function(){
-            $('td.action').each(function () {
-                    // Hide actions in rows where approval exists
-                    if ($(this).hasClass('hide-actions')) {
-                        $(this).hide();
-                        var message = $('<span>').text('No actions available').css({
-                        'color': 'red', 
-                        'font-weight': 'bold'
-                    });
-                    $(this).parent().find('td').last().after(message); // Adding the message after the last column
-                }
-                    
-            });
-        }); 
+$(document).ready(function () {
+    $('td.action').each(function () {
+        // Check if this `td` has the 'hide-actions' class
+        if ($(this).hasClass('hide-actions')) {
+            // Clear existing content of the `td`
+            $(this).empty();
+
+            // Create a <span> element with the message
+            var message = $('<span>')
+                .text('No actions available')
+                .css({
+                    'color': 'red',
+                    'font-weight': 'bold',
+                });
+
+            // Append the message to the `td`
+            $(this).append(message);
+
+            // Ensure the `td` is visible
+            $(this).css('display', 'table-cell'); // Ensure the display is correct
+        }
+    });
+});
+
+
         </script>;
     <?php } 
 

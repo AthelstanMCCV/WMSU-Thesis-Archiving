@@ -15,6 +15,9 @@
 <div id="pending-header">
     <img id="pending-title-logo" src="../imgs/student-icon.png" alt="">
     <h4 id="pending-title">Staff List</h4>
+    <div id="addContainer">
+        <a id="addStaff" type="button">Add Staff <span id="addIcon">+</span></a>
+    </div>
 </div>
 
 <form action="" id="pending-form">
@@ -23,8 +26,6 @@
         <img id="search-img" src="../imgs/search-icon.png" alt="">
     </div>
 </form>
-
-<button id="addStaff">Add Staff Record</button>
 
 <div class="table-responsive">
     <table id="staff-thesis-list" class="table table-hover align-middle">
