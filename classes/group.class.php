@@ -9,7 +9,6 @@ Class Group{
     public $lastName;
     public $firstName;
     public $middleName;
-    public $course;
 
     protected $db;
 
@@ -38,7 +37,7 @@ Class Group{
     }
 
     function fetchGroupMembers($groupID){
-        $sql = "SELECT studentID, accounts.username, lastName, firstName, middleName, groupmembers.course 
+        $sql = "SELECT studentID, accounts.username, lastName, firstName, middleName
             from groupmembers LEFT JOIN accounts
             ON groupmembers.groupID = accounts.ID
             WHERE groupID = :groupID";

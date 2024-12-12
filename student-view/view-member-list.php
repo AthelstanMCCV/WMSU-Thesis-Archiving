@@ -2,7 +2,7 @@
 session_start();
 require_once "../classes/group.class.php";
 $groupObj = new Group;
-$studIDErr = $lastNameErr = $firsTNameErr = $courseErr = "";
+$studIDErr = $lastNameErr = $firsTNameErr = "";
 
     if(isset($_POST['addMember']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
         $groupObj->cleanMembers();
@@ -11,15 +11,13 @@ $studIDErr = $lastNameErr = $firsTNameErr = $courseErr = "";
         $lastName = $groupObj->lastName;
         $firstName = $groupObj->firstName; 
         $middleName = $groupObj->middleName;
-        $course = $groupObj->course;
 
         $studIDErr = errNum(validateInput($studentID, "number"));
         $lastNameErr = errText(validateInput($lastName, "text"));
         $firsTNameErr = errText(validateInput($firstName, "text"));
         $middleNameErr = errText(validateInput($middleName, "text"));
-        $courseErr = errText(validateInput($course, "text"));
 
-        if (empty($studIDErr) && empty($lastNameErr) && empty($firstNameErr) && empty($courseErr)){
+        if (empty($studIDErr) && empty($lastNameErr) && empty($firstNameErr)){
             $groupID = $_SESSION['account']['ID'];
             $groupObj->addMembers($groupID);
             $_SESSION['form_success'] = true;

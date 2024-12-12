@@ -5,7 +5,7 @@ require_once "../classes/login.class.php";
 
 $groupObj = new Group;
 $loginObj = new Login;
-$studIDErr = $lastNameErr = $firsTNameErr = $courseErr = "";
+$studIDErr = $lastNameErr = $firsTNameErr = "";
 
     if(isset($_POST['addMember']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
         $groupObj->cleanMembers();
@@ -14,7 +14,6 @@ $studIDErr = $lastNameErr = $firsTNameErr = $courseErr = "";
         $lastName = $groupObj->lastName;
         $firstName = $groupObj->firstName; 
         $middleName = $groupObj->middleName;
-        $course = $groupObj->course;
 
         $studIDErr = errNum(validateInput($studentID, "number"));
         $lastNameErr = errText(validateInput($lastName, "text"));
