@@ -1,0 +1,43 @@
+<!-- Modal -->
+<div class="modal fade" id="addThesisModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Add Staff Record</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div> 
+        <form action="" method="post" id="form-add-staff">
+            <div class="modal-body">
+                <div class="mb-2">
+                    <label for="studentID" class="form-label">Student ID</label>
+                    <input type="text" name="studentID" id="studentID" class="form-control" placeholder="Student ID">
+                    <div class="invalid-feedback"></div>
+                </div>
+            
+                <div class="mb-2">
+                    <label for="lastName" class="form-label">Last Name</label>
+                    <input type="password" name="lastName" id="lastName" class="form-control" placeholder="Last Name">
+                    <div class="invalid-feedback"></div>
+                </div>
+            
+                <div class="mb-2">
+                    <label for="firstName" class="form-label">First Name</label>
+                    <input type="text" name="firstName" id="firstName" class="form-control" placeholder="First Name">
+                    <div class="invalid-feedback"></div>
+                </div>
+                <div class="mb-2">
+                    <label for="middleName" class="form-label">Middle Name</label>
+                    <input type="text" name="middleName" id="middleName" class="form-control" placeholder="Middle Name">
+                    <div class="invalid-feedback"></div>
+                </div>    
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-danger brand-bg-color">Add Member</button>
+            </div>
+
+        </form>
+      </div>
+    </div>
+</div>

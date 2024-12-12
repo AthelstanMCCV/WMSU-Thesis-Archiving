@@ -30,11 +30,12 @@ $studIDErr = $lastNameErr = $firsTNameErr = "";
       <?php 
         $memberReqData = $groupObj->fetchGroupMembers($_SESSION['account']['ID']);
     ?>
-
-    <a href="../student-functions/addMember.php">Add Member</a>
         <div id="pending-header">
             <img id="pending-title-logo" src="../imgs/student-icon.png" alt="">
             <h4 id="pending-title">Member List</h4>
+            <div id="addContainer">
+                <a id="addMemberBtn" href="../student-functions/addMember.php"">Add Member <span id="addIcon">+</span></a>
+            </div>
         </div>
         <form action="" id="pending-form">
             <div id="pending-search-bar">

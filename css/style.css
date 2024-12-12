@@ -213,6 +213,10 @@ table>thead>tr th:last-child{
     border-style: hidden;
 }
 
+#actions>.reqData{
+    width: 70%;
+}
+
 #approveStyle{
     width: 50%;
     text-decoration: none;
@@ -249,4 +253,43 @@ table>thead>tr th:last-child{
     background-color: red;
     color: white;
     transition: ease-in-out .2s;
+}
+
+#addContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: crimson;
+    border: .5px solid;
+    border-color: black;
+    border-radius: 10px;
+    width: 110px;
+    height: 40px;
+    margin-left: 25px;
+}
+
+#addThesisBtn{
+    color: white;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#addMemberBtn{
+    color: white;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#addIcon{
+    margin-left: 5px;
+    font-weight: 400;
+    font-size: 14px;
 }

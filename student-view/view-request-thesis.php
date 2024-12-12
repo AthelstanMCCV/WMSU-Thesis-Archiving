@@ -34,7 +34,7 @@ $reqThesisObj = new Thesis;
                         <td><?php echo $thesis["thesisID"]?></td>
                         <td><?php echo $thesis["thesisTitle"]?></td>
                         <td><?php echo $thesis["status"]?></td>
-                        <td> <a id="approveStyle" class="reqData" data-id="<?php echo $thesis['thesisID']; ?>">Request Data</a>
+                        <td id="actions"> <a id="approveStyle" class="reqData" data-id="<?php echo $thesis['thesisID']; ?>" type="button">Request Data</a>
                     </tr>
                     
             <?php };

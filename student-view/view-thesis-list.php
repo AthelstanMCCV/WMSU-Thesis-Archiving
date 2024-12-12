@@ -8,9 +8,10 @@ $thesisObj = new Thesis;
 <div id="pending-header">
     <img id="pending-title-logo" src="../imgs/thesis-icon.png" alt="">
     <h4 id="pending-title">Thesis List</h4>
+    <div id="addContainer">
+        <a id="addThesisBtn" href="../student-functions/addThesis.php">Add Thesis <span id="addIcon">+</span></a>
+    </div>
 </div>
-
-<a href="../student-functions/addThesis.php">Add Thesis</a>
 <form action="" id="pending-form">
     <div id="pending-search-bar">
         <input type="search" name="" id="staff-thesis-search" placeholder="Search">
