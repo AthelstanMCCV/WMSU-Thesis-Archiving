@@ -1,0 +1,40 @@
+<!-- Modal -->
+<div 
+    class="modal fade" 
+    id="editThesisModal" 
+    data-bs-backdrop="static" 
+    data-bs-keyboard="false" 
+    tabindex="-1" 
+    aria-labelledby="staticBackdropLabel" 
+    aria-hidden="true"
+    data-id=""
+>
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Edit Thesis</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div> 
+        <form action="" method="post" id="form-edit-thesis">
+            <div class="modal-body">
+                <div class="mb-2">
+                    <label for="thesisTitle" class="form-label">Thesis Title</label>
+                    <input type="text" name="thesisTitle" id="thesisTitle" class="form-control" placeholder="Thesis Title">
+                    <div class="invalid-feedback"></div>
+                </div>
+            
+                <div class="mb-2">
+                    <label for="startDate" class="form-label">Start Date</label>
+                    <input type="date" name="startDate" id="startDate" class="form-control" placeholder="Start Date">
+                    <div class="invalid-feedback"></div>
+                </div>         
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-danger brand-bg-color">Edit Staff Record</button>
+            </div>
+
+        </form>
+      </div>
+    </div>
+  </div>

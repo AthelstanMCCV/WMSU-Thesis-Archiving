@@ -1,0 +1,235 @@
+*{
+    margin: 0;
+}
+#nav-container{
+    background-color: crimson;
+    height: 70px;
+}
+
+#nav-items{
+    display: flex;
+    justify-content: space-between;
+    justify-items: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+#nav-logo{
+    margin-left: 15px;
+}
+
+#nav-links{
+    width: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#nav-links a{
+    margin: 0 25px;
+    text-decoration: none;
+    color: white;
+}
+
+#nav-links a:hover{
+    border-bottom: 1px solid white;
+    transition: ease-in-out .3s;
+    font-size: 18px;
+}
+
+#account-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 15px;
+}
+
+#intro-text{
+    margin-right: 10px;
+    font-size: 16px;
+    color: white;
+    font-weight: 500;
+}
+
+#intro-img{
+    width: 30px;
+    height: 30px;
+}
+
+#sidebar{
+    width: 22%;
+}
+
+#sidebar-content{
+    padding: 35px 0 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-right: 1px solid rgb(234, 228, 228);
+    margin-right: 20px;
+    height: 100vh;
+}
+
+#sidebar-line{
+    width: 80%;
+    height: 1px;
+    background-color: rgb(234, 228, 228);
+    margin: 15px 0 25px 0;
+}
+
+#sidebar-navlink-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sidebar-navlink{
+    text-decoration: none;
+    color: black;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    width: 100%;
+    padding: 0 20px;
+    margin-bottom: 25px;
+}
+
+.sidebar-navlink > h6{
+    margin: 0 0 0 10px;
+    font-size: 16px;
+}
+
+.sidebar-navlink img{
+    width: 20px;
+    height: 20px;
+}
+
+#dashboard-body{
+    display: flex;
+}
+
+#modalButton{
+    color: black;
+    text-decoration: none;
+}
+
+#dashboard-main-display{
+    margin: 90px 100px 0 20px;
+    width: 76%;
+}
+
+#pending-header{
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+#pending-title{
+    margin: 0;
+    font-weight: 700;
+}
+
+#pending-title-logo{
+    margin: 0 10px 0 0;
+    width: 30px;
+    height: 30px;
+}
+
+#pending-form{
+    display: flex;
+    justify-content: end;
+    margin-bottom: 35px;
+}
+
+#pending-search-bar{
+    border: .5px solid black;
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#pending-search-bar > input[type=search]{
+    border: none;
+    width: 80%;
+}
+
+#search-img{
+    width: 20px;
+    height: 20px;
+}
+
+
+#pending-headerRow{
+    background-color: rgb(238, 238, 238);
+    text-align: center;
+    font-size: 14px;
+}
+
+#pending-data-row{
+    border-style: hidden;
+    height: 60px;
+    text-align: center;
+    font-size: 12px;
+}
+
+
+#schoolInf{
+    font-size: 12px;
+}
+
+table>thead>tr th:first-child{
+    border-radius: 10px 0 0 0;
+}
+table>thead>tr th:last-child{
+    border-radius: 0 10px 0 0;
+    width: 15%;
+}
+
+#actions{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    padding: 0;
+    border-style: hidden;
+}
+
+#approveStyle{
+    width: 50%;
+    text-decoration: none;
+    color: green;
+    border: 1px solid black;
+    border-radius: 10px;
+    height: 30px;
+    margin-right: 10px;
+    text-transform: uppercase;
+    font-size: 12px;
+    padding: 5px;
+}
+
+#approveStyle:hover{
+    background-color: green;
+    color: white;
+    transition: ease-in-out .2s;
+}
+
+#rejectStyle{
+    width: 50%;
+    text-decoration: none;
+    color: red;
+    border: 1px solid black;
+    border-radius: 10px;
+    height: 30px;
+    margin-right: 10px;
+    text-transform: uppercase;
+    font-size: 12px;
+    padding: 5px;
+}
+
+#rejectStyle:hover{
+    background-color: red;
+    color: white;
+    transition: ease-in-out .2s;
+}
