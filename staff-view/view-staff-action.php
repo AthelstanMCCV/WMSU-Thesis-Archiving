@@ -23,6 +23,7 @@ $thesisactionreqObj = new Thesis;
                 <th id="pending-headerRow"> Group Name </th>
                 <th id="pending-headerRow"> Thesis ID </th>
                 <th id="pending-headerRow"> Thesis Title </th>
+                <th id="pending-headerRow"> Short Description </th>
                 <th id="pending-headerRow"> Date Requested </th>
                 <th id="pending-headerRow"> Action Request </th>
                 <th id="pending-headerRow"> Actions </th>
@@ -37,6 +38,7 @@ $thesisactionreqObj = new Thesis;
                 <td><?php echo $thesis["username"]?></td>
                 <td><?php echo $thesis["thesisID"]?></td>
                 <td><?php echo $thesis["thesisTitle"]?></td>
+                <td><?php echo $thesis["abstract"]?></td>
                 <td><?php echo $thesis["dateRequested"]?></td>
                 <td><?php echo $thesis["action"]?></td>
                 <td id="actions">

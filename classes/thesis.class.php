@@ -6,6 +6,8 @@ Class Thesis{
     public $thesisID;
     public $thesisTitle;
     public $datePublished;
+    public $advisorName;
+    public $shortDesc;
 
     protected $db;
     function __construct(){
@@ -15,15 +17,19 @@ Class Thesis{
     function cleanThesis(){
         $this->thesisTitle = cleanInput($_POST['thesisTitle']);
         $this->datePublished = cleanInput($_POST['datePublished']);
+        $this->advisorName = cleanInput($_POST['advisorName']);
+        $this->shortDesc = cleanInput($_POST['shortDesc']);
     }
 
     function addThesis($groupID){
-        $sql = "INSERT INTO thesis (thesisTitle, datePublished, groupID)
-                VALUES (:thesisTitle, :datePublished, :groupID)";
+        $sql = "INSERT INTO thesis (thesisTitle, datePublished, advisorName, abstract, groupID)
+                VALUES (:thesisTitle, :datePublished, :advisorName, :shortDesc, :groupID)";
         $qry = $this->db->connect()->prepare($sql);
 
         $qry->bindParam(":thesisTitle", $this->thesisTitle);
         $qry->bindParam(":datePublished", $this->datePublished);
+        $qry->bindParam(":advisorName", $this->advisorName);
+        $qry->bindParam(":shortDesc", $this->shortDesc);
         $qry->bindParam(":groupID", $groupID);
 
         return $qry->execute();
@@ -90,7 +96,7 @@ Class Thesis{
         
     }
     function fetchAllPendingThesis(){
-        $sql = "SELECT datePublished, advisorName, dateAdded, username, thesisID, thesisTitle, thesis.status from thesis 
+        $sql = "SELECT datePublished, advisorName, dateAdded, username, thesisID, thesisTitle, abstract, thesis.status from thesis 
                 LEFT JOIN accounts ON groupID = accounts.ID WHERE thesis.status = 'Pending'";
         $qry = $this->db->connect()->prepare($sql);
 
@@ -102,7 +108,7 @@ Class Thesis{
     }
 
     function setApproveThesis($thesisID){
-        $sql = "UPDATE thesis SET status='Approved', notes='Edit Request Apporoved' WHERE thesisID = :thesisID";
+        $sql = "UPDATE thesis SET status='Approved', notes='' WHERE thesisID = :thesisID";
         $qry = $this->db->connect()->prepare($sql);
 
         $qry->bindParam(":thesisID", $thesisID);
@@ -326,7 +332,7 @@ Class Thesis{
     }
 
     function fetchThesisEditReq(){
-        $sql = "SELECT thesisActionReqID, username, thesiseditreq.thesisID, thesisTitle, dateRequested, action FROM thesisactionreq 
+        $sql = "SELECT thesisActionReqID, username, thesiseditreq.thesisID, thesisTitle, abstract, dateRequested, action FROM thesisactionreq 
                 LEFT JOIN accounts ON groupID = accounts.ID
                 LEFT JOIN thesiseditreq ON thesiseditreq.thesisID = thesisactionreq.thesisID" ;
         $qry = $this->db->connect()->prepare($sql);
@@ -412,13 +418,15 @@ return $data;
     }
 
     function reqeditThesis($thesisID, $groupID){
-        $sql = "INSERT INTO thesiseditreq (thesisID, thesisTitle, datePublished, groupID)
-                VALUES (:thesisID, :thesisTitle, :datePublished, :groupID)";
+        $sql = "INSERT INTO thesiseditreq (thesisID, thesisTitle, advisorName, abstract, datePublished, groupID)
+                VALUES (:thesisID, :thesisTitle,:advisorName, :shortDesc, :datePublished, :groupID)";
         $qry = $this->db->connect()->prepare($sql);
 
         $qry->bindParam(":thesisID", $thesisID);
         $qry->bindParam(":thesisTitle", $this->thesisTitle);
         $qry->bindParam(":datePublished", $this->datePublished);
+        $qry->bindParam(":advisorName", $this->advisorName);
+        $qry->bindParam(":shortDesc", $this->shortDesc);
         $qry->bindParam(":groupID", $groupID);
 
         $qry->execute();

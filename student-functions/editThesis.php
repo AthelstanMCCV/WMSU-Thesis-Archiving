@@ -19,6 +19,8 @@ if (($currThesisData['status'] != "Delete") && ($currThesisData['status'] != "Ed
         // Retrieve form data
         $thesisTitle = $ediThesisObj->thesisTitle;
         $datePublished = $ediThesisObj->datePublished;
+        $advisorName = $ediThesisObj->advisorName;
+        $shortDesc = $ediThesisObj->shortDesc;
         $groupID = $_SESSION['account']['ID'];
 
         // Initialize error messages
@@ -33,9 +35,12 @@ if (($currThesisData['status'] != "Delete") && ($currThesisData['status'] != "Ed
         if (empty($datePublished)) {
             $datePublishedErr = 'Date Published is required.';
         }
+        if (empty($advisorName)) {
+            $advisorNameErr = 'Advisor Name is required.';
+        }
 
         // Check if there are validation errors
-        if (!empty($titleErr) || !empty($datePublishedErr)) {
+        if (!empty($titleErr) || !empty($datePublishedErr) || !empty($advisorNameErr)) {
             // Return error response if validation fails
             header('Content-Type: application/json');
             echo json_encode([

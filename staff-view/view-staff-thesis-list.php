@@ -67,6 +67,7 @@ if (isset($_SESSION['currThesis']['ID'])){
                 <th id="pending-headerRow"> Advisor Name </th>
                 <th id="pending-headerRow"> Thesis ID </th>
                 <th id="pending-headerRow"> Thesis Title </th>
+                <th id="pending-headerRow"> Description</th>
                 <th id="pending-headerRow"> Status </th>
                 <th id="pending-headerRow"> Actions </th>
             </tr>
@@ -83,6 +84,7 @@ if (isset($_SESSION['currThesis']['ID'])){
                 <td><?php echo $thesis["advisorName"]?></td>
                 <td><?php echo $thesis["thesisID"]?></td>
                 <td><?php echo $thesis["thesisTitle"]?></td>
+                <td><?php echo $thesis["abstract"]?></td>
                 <td><?php echo $thesis["status"]?></td>
                 <td id="actions" class="action <?php echo $hideActions; ?>">
                     <a id="approveStyle" class="staffApprove" data-id="<?php echo $thesis['thesisID']; ?>" type="button">Approve</a>

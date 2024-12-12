@@ -10,6 +10,7 @@ $thesisObj = new Thesis;
     <h4 id="pending-title">Thesis List</h4>
 </div>
 
+<a href="../student-functions/addThesis.php">Add Thesis</a>
 <form action="" id="pending-form">
     <div id="pending-search-bar">
         <input type="search" name="" id="staff-thesis-search" placeholder="Search">
