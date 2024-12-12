@@ -34,7 +34,7 @@ if(($currThesisData['status'] != "Delete") && ($currThesisData['status'] != "Edi
             $datePublishedErr = 'Date Published is required.';
         }
 
-        if(!empty($thesisTitle) || !empty($datePublished)){
+        if(!empty($titleErr) || !empty($datePublishedErr)){
             echo json_encode([
                 'status' => 'error',
                 'titleErr' => $titleErr,
