@@ -319,8 +319,10 @@ Class Thesis{
     }
 
     function fetchThesisLogs($groupID){
-        $sql = "SELECT approvalID, staffID, thesisTitle, thesislogs.status, actionDate  from thesislogs LEFT JOIN thesis
-                ON thesislogs.thesisID = thesis.thesisID WHERE thesislogs.groupID = :groupID";
+        $sql = "SELECT approvalID, accounts.username, thesisTitle, thesislogs.status, actionDate  from thesislogs LEFT JOIN thesis
+                ON thesislogs.thesisID = thesis.thesisID
+                LEFT JOIN accounts ON thesislogs.staffID = accounts.ID
+                LEFT JOIN staffaccounts ON thesislogs.staffID = staffaccounts.ID WHERE thesislogs.groupID = :groupID";
         $qry = $this->db->connect()->prepare($sql);
 
         $qry->bindParam(":groupID", $groupID);

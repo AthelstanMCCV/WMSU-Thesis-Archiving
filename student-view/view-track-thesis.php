@@ -21,8 +21,8 @@ $thesisApproveObj = new Thesis;
             <table id="staff-thesis-list" class="table table-hover align-middle">
                 <thead>
                     <tr>
-                        <th id="pending-headerRow"> Approval ID </th>
-                        <th id="pending-headerRow"> Staff ID </th>
+                        <th id="pending-headerRow"> ID </th>
+                        <th id="pending-headerRow"> Staff </th>
                         <th id="pending-headerRow"> Thesis Name </th>
                         <th id="pending-headerRow"> Status </th>
                         <th id="pending-headerRow"> Action Date </th>
@@ -32,7 +32,7 @@ $thesisApproveObj = new Thesis;
     <?php foreach($thesisTrack as $data){ ?>
             <tr id="pending-data-row">
                 <td><?php echo $data["approvalID"] ?></td>
-                <td><?php echo $data["staffID"]?></td>
+                <td><?php echo $data["username"]?></td>
                 <td><?php echo $data["thesisTitle"]?></td>
                 <td><?php echo $data["status"]?></td>
                 <td><?php echo $data["actionDate"]?></td>
