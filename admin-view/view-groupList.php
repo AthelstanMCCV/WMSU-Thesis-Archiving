@@ -36,8 +36,8 @@ $groupObj = new Group;
                         <td><?php echo $data["ID"] ?></td>
                         <td><?php echo $data["username"]?></td>
                         <td><?php echo $data["email"]?></td>
-                        <td><?php echo $data["department"]?></td>
-                        <td><?php echo $data["course"]?></td>
+                        <td><?php echo $data["departmentName"]?></td>
+                        <td><?php echo $data["courseName"]?></td>
                         <td><?php echo $data["date_created"]?></td>
                     </tr>
         <?php }; ?>

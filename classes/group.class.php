@@ -94,7 +94,8 @@ Class Group{
     }
 
     function fetchAllGroups(){
-        $sql = "SELECT * FROM accounts WHERE role = 3";
+        $sql = "SELECT *, department.departmentName, courses.courseName FROM accounts LEFT JOIN department ON departmentID = accounts.department
+        LEFT JOIN courses ON courseID = accounts.course WHERE role = 3";
         $qry = $this->db->connect()->prepare($sql);
 
         if($qry->execute()){

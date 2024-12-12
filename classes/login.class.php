@@ -103,7 +103,18 @@ require_once __DIR__ . "/db_connection.class.php";
             $data = $qry->fetch(PDO::FETCH_ASSOC);
 
             return $data;
+        }
 
+        function fetchDeptID($deptName){
+            $sql = "SELECT departmentID from department WHERE departmentName = :deptName";
+            $qry = $this->db->connect()->prepare($sql);
+
+            $qry->bindParam(":deptName", $deptName);
+            $qry->execute();
+
+            $data = $qry->fetchColumn();
+
+            return $data;
         }
         
         function getCourses($deptID){
@@ -115,6 +126,16 @@ require_once __DIR__ . "/db_connection.class.php";
 
         return $data;
     }
+
+        function getCourseID($courseName){
+        $sql2 = "SELECT courseID FROM courses WHERE courseName = :courseName";
+        $qry2 = $this->db->connect()->prepare($sql2);
+        $qry2->bindParam(":courseName",$courseName);
+        $qry2->execute();
+        $data = $qry2->fetchColumn();
+
+        return $data;
+        }
     }
 
 ?>

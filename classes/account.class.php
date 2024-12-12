@@ -6,8 +6,8 @@ require_once __DIR__ . "/db_connection.class.php";
 
         public $id;       
         public $groupName;
-        public $username;
-        public $password;
+        public $username = "schoolibrary";
+        public $password = "admin";
         public $dept;
         public $course;
         public $email;
@@ -50,9 +50,9 @@ require_once __DIR__ . "/db_connection.class.php";
 
 
 // ACCOUNT REQUEST
-        function accountRequest(){
+        function accountRequest($deptID, $courseID){
             $sql = "INSERT INTO accounts (username, password, role, status, email, department, course) 
-            VALUES (:username, :password, 3, 'Pending', :email, :dept, :course)";
+            VALUES (:username, :password, 3, 'Pending', :email, :deptID, :courseID)";
             $qry = $this->db->connect()->prepare($sql);
 
             $hashPass = password_hash($this->password, PASSWORD_DEFAULT);
@@ -60,8 +60,8 @@ require_once __DIR__ . "/db_connection.class.php";
             $qry->bindParam(":username", $this->username);
             $qry->bindParam(":password", $hashPass);
             $qry->bindParam(":email", $this->email);
-            $qry->bindParam(":dept", $this->dept);
-            $qry->bindParam(":course", $this->course);
+            $qry->bindParam(":deptID", $deptID);
+            $qry->bindParam(":courseID", $courseID);
 
 
             return $qry->execute();
@@ -73,7 +73,8 @@ require_once __DIR__ . "/db_connection.class.php";
 
 // STUDENT ACCOUNT TABLE
         function fetchData(){
-            $sql = "SELECT * from accounts WHERE role = 3 AND status='Pending'";
+            $sql = "SELECT *,departmentName, courseName from accounts LEFT JOIN department on departmentID = accounts.department
+            LEFT JOIN courses on courseID = accounts.course WHERE role = 3 AND status='Pending'";
             $qry = $this->db->connect()->prepare($sql);
 
             $qry->execute();
@@ -195,5 +196,28 @@ require_once __DIR__ . "/db_connection.class.php";
         return $qry->execute();
     }
 
+
+
+    
+
+// function addAccount($deptID = NULL, $courseID = NULL){
+//     $sql = "INSERT INTO accounts (username, password, role, status, email, department, course) 
+//     VALUES (:username, :password, 2, 'Approved', :email, :deptID, :courseID)";
+//     $qry = $this->db->connect()->prepare($sql);
+
+//     $hashPass = password_hash($this->password, PASSWORD_DEFAULT);
+    
+//     $qry->bindParam(":username", $this->username);
+//     $qry->bindParam(":password", $hashPass);
+//     $qry->bindParam(":email", $this->email);
+//     $qry->bindParam(":deptID", $deptID);
+//     $qry->bindParam(":courseID", $courseID);
+
+
+//     return $qry->execute();
+// }
+
 }
+    // $testObj = new Accounts;
+    // $testObj->addAccount();
 ?>

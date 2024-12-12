@@ -13,6 +13,10 @@ if (isset($_POST['submit']) && $_SERVER['REQUEST_METHOD'] == "POST"){
     $course = $registerObj->course;
     $email = $registerObj->email;
 
+    $deptID = $loginObj->fetchDeptID($Dept);
+    $courseID = $loginObj->getCourseID($course);
+    
+
     $UsernameErr = errText(validateInput($Username, "text"));
     $PasswordErr = errText(validateInput($Password, "text"));
     $Errtxt = errText(validateInput($Password, "text"));
@@ -22,7 +26,7 @@ if (isset($_POST['submit']) && $_SERVER['REQUEST_METHOD'] == "POST"){
     $emailErr = errEmail(validateInput($email, "email"));
 
     if (empty($UsernameErr) && empty($PasswordErr) && empty($deptErr) && empty($courseErr) && empty($emailErr)){ 
-        $registerObj->accountRequest();
+        $registerObj->accountRequest($deptID,$courseID);
         header("location: login.php");
         exit;
     }
@@ -33,7 +37,7 @@ if (isset($_POST['selectedValue']) && $_SERVER['REQUEST_METHOD'] == "POST"){
     $selectedDeptID = $loginObj->findDeptID($selectedDept);
     $coursesData = $loginObj->getCourses($selectedDeptID['departmentID']);
     
-    echo json_encode(["status" => "success", "message" => "SUCCESS", "data" => $coursesData]);
+    echo json_encode(["status" => "success", "data" => $coursesData]);
     exit;
 }
 ?>
@@ -77,8 +81,6 @@ if (isset($_POST['selectedValue']) && $_SERVER['REQUEST_METHOD'] == "POST"){
                     }
                 });
             })
-            }else{
-                
             }
         });
     </script>
