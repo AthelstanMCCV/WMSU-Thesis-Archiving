@@ -14,7 +14,6 @@ $reqThesisObj = new Thesis;
             </div>
         </form>
    
-            <div class="table-responsive">
                 <table id="staff-thesis-list" class="table table-hover align-middle">
                     <thead>
                         <tr>
@@ -42,4 +41,4 @@ $reqThesisObj = new Thesis;
                 ?>
                 </tbody>
             </table>          
-        </div>        
+      
