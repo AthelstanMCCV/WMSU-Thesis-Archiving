@@ -38,7 +38,7 @@
     // if (errText(validateInput($_POST[], text)))
     // if (errText(validateInput($_POST[], text)))
     function errText($bool) {
-        return $bool ? "" : "Field should not be empty or should only contain text";
+        return $bool ? "" : "Field should not be empty";
     }
     
     function errNum($bool) {

@@ -56,8 +56,77 @@ $(document).ready(function () {
                         e.preventDefault(); // Prevent default behavior
                         editThesisRecord(this.dataset.id); // Call function to add product
                     });
+
+                    $("#addThesisBtn").on("click", function (e) {
+                        e.preventDefault();
+                        addThesisModal();
+                    });
                 },
             });
+        }
+
+        function addThesisModal() {
+            $.ajax({
+            type: "GET",
+            url: "../modals/addThesis-modal.html",
+            dataType: "html",
+                success: function (view) {
+                    $(".modal-container").empty().html(view);
+                    $("#addThesisModal").modal("show");
+
+                    $("#form-add-thesis").on("submit", function (e) {
+                        e.preventDefault(); // Prevent default form submission
+                        addThesis(); // Call function to save product
+                      });
+                },
+                });
+        };
+
+        function addThesis(){
+            $.ajax({
+                type: "POST", // Use POST request
+                url: "../student-functions/addThesis.php", // URL for saving product
+                data: $("form").serialize(), // Serialize the form data for submission
+                dataType: "json", // Expect JSON response
+                success: function (response){
+                    console.log(response);
+                    if (response.status === "error"){
+                        if (response.titleErr) {
+                            $("#thesisTitle").addClass("is-invalid"); // Mark field as invalid
+                            $("#thesisTitle").next(".invalid-feedback").text(response.titleErr).show(); // Show error message
+                        }else{
+                            $("#thesisTitle").removeClass("is-invalid"); // Remove invalid class if no error
+                        }
+    
+                        if (response.advisorNameErr) {
+                            $("#advisorName").addClass("is-invalid"); // Mark field as invalid
+                            $("#advisorName").next(".invalid-feedback").text(response.advisorNameErr).show(); // Show error message
+                        }else{
+                            $("#advisorName").removeClass("is-invalid"); // Remove invalid class if no error
+                        }
+    
+                        if (response.abstractErr) {
+                            $("#shortDesc").addClass("is-invalid"); // Mark field as invalid
+                            $("#shortDesc").next(".invalid-feedback").text(response.abstractErr).show(); // Show error message
+                        }else{
+                            $("#shortDesc").removeClass("is-invalid"); // Remove invalid class if no error
+                        }
+
+                        if (response.datePublishedErr) {
+                            $("#datePublished").addClass("is-invalid"); // Mark field as invalid
+                            $("#datePublished").next(".invalid-feedback").text(response.datePublishedErr).show(); // Show error message
+                        }else{
+                            $("#datePublished").removeClass("is-invalid"); // Remove invalid class if no error
+                        }
+                    }else if (response.status === "success") {
+                        // On success, hide modal and reset form
+                        $("#addThesisModal").modal("hide");
+                        $("form")[0].reset(); // Reset the form
+                        // Optionally, reload products to show new entry
+                        thesisList();
+                      }
+                }
+            })
         }
 
         function editThesisRecord(thesisID) {
@@ -90,6 +159,8 @@ $(document).ready(function () {
               success: function (currThesisData) {
                 $("#thesisTitle").val(currThesisData.thesisTitle);
                 $("#datePublished").val(currThesisData.datePublished);
+                $("#advisorName").val(currThesisData.advisorName);
+                $("#shortDesc").val(currThesisData.abstract);
               },
             });
         }
@@ -108,6 +179,20 @@ $(document).ready(function () {
                 hasErrors = true;
                 $("#thesisTitle").addClass("is-invalid");
                 $("#thesisTitle").next(".invalid-feedback").text("Thesis Title is required.").show();
+            }
+
+            let advisorName = $("#advisorName").val();
+            if (!advisorName) {
+                hasErrors = true;
+                $("#advisorName").addClass("is-invalid");
+                $("#advisorName").next(".invalid-feedback").text("Advisor Name is required.").show();
+            }
+
+            let abstract = $("#shortDesc").val();
+            if (!abstract) {
+                hasErrors = true;
+                $("#shortDesc").addClass("is-invalid");
+                $("#shortDesc").next(".invalid-feedback").text("Abstract is required.").show();
             }
         
             // Validate Date Published
@@ -140,6 +225,19 @@ $(document).ready(function () {
                         if (response.datePublishedErr) {
                             $("#datePublished").addClass("is-invalid");
                             $("#datePublished").next(".invalid-feedback").text(response.datePublishedErr).show();
+                        }
+                        if (response.advisorNameErr) {
+                            $("#advisorName").addClass("is-invalid"); // Mark field as invalid
+                            $("#advisorName").next(".invalid-feedback").text(response.advisorNameErr).show(); // Show error message
+                        }else{
+                            $("#advisorName").removeClass("is-invalid"); // Remove invalid class if no error
+                        }
+    
+                        if (response.abstractErr) {
+                            $("#shortDesc").addClass("is-invalid"); // Mark field as invalid
+                            $("#shortDesc").next(".invalid-feedback").text(response.abstractErr).show(); // Show error message
+                        }else{
+                            $("#shortDesc").removeClass("is-invalid"); // Remove invalid class if no error
                         }
                     } else if (response.status === "success") {
                         // Hide the modal and reset the form

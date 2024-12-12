@@ -9,7 +9,7 @@ $thesisObj = new Thesis;
     <img id="pending-title-logo" src="../imgs/thesis-icon.png" alt="">
     <h4 id="pending-title">Thesis List</h4>
     <div id="addContainer">
-        <a id="addThesisBtn" href="../student-functions/addThesis.php">Add Thesis <span id="addIcon">+</span></a>
+        <a id="addThesisBtn" type="button">Add Thesis <span id="addIcon">+</span></a>
     </div>
 </div>
 <form action="" id="pending-form">
@@ -45,7 +45,7 @@ $thesisObj = new Thesis;
                 <td><?php echo $thesis["notes"]?></td>
                 <?php if ($thesis['status'] != 'Pending' && $thesis['status'] != 'Edit' && $thesis['status'] != 'Delete' && $thesis['status'] != 'Rejected'){?>
                     <td id="actions">
-                        <a id="approveStyle" class="editThesis" data-id="<?php echo $thesis['thesisID'];?>">Edit</a> 
+                        <a id="approveStyle" class="editThesis" data-id="<?php echo $thesis['thesisID'];?>" type="button">Edit</a> 
                         <a id="rejectStyle" href="../student/deleteThesis.php?id=<?php echo $thesis['thesisID']; ?>&index=<?php echo $index;?>">Delete</a>
                     </td>
                 <?php 

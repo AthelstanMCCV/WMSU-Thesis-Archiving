@@ -5,7 +5,7 @@ require_once "../tools/functions.php";
 
 $thesisObj = new Thesis;
 
-if (isset($_POST['addThesis']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
+if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     $thesisObj->cleanThesis();
 
@@ -20,25 +20,31 @@ if (isset($_POST['addThesis']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
     $titleErr = errText(validateInput($thesisTitle, "text"));
     $advisorNameErr = errText(validateInput($advisorName, "text"));
     $abstractErr = errText(validateInput($abstract, "text"));
+    $datePublishedErr = '';
+
+    if(empty($datePublished)){
+        $datePublishedErr = 'Date Published is required.';
+    }
+
+    if(!empty($titleErr) || !empty($advisorNameErr) || !empty($abstractErr)){
+        header('Content-Type: application/json');
+        echo json_encode([
+            'status' => 'error',
+            'titleErr' => $titleErr,
+            'advisorNameErr' => $advisorNameErr,
+            'abstractErr' => $abstractErr,
+            'datePublishedErr' => $datePublishedErr,
+        ]);
+        exit;
+    }
 
     if(empty($titleErr) && empty($advisorNameErr) && empty($abstractErr)){
         $thesisObj->addThesis($groupID);
         $currThesis = $thesisObj->fetchThesisID($thesisTitle);
         $thesisObj->recordThesis(NULL, $_SESSION['account']['ID'], $currThesis);
-
-        $_SESSION['form_success'] = true;
-
-        echo '<script>window.location.href="../student/thesis-list";</script>';
+        header('Content-Type: application/json');
+        echo json_encode(['status' => 'success']);
+        exit;
     }
 }
-
 ?>
-
-<a href="../student/thesis-list">Back</a>
-<form action="" method="POST">
-                <input type="text" name="thesisTitle" id="thesisTitle" placeholder="Thesis Title">
-                <input type="text" name="advisorName" id="advisorName" placeholder="Advisor Name">
-                <input type="text" name="shortDesc" id="shortDesc" placeholder="Short Description">
-                <input type="date" name="datePublished" id="datePublished">
-                <input type="submit" name="addThesis" value="Add Thesis">
-            </form>

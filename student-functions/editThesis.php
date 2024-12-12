@@ -38,6 +38,9 @@ if (($currThesisData['status'] != "Delete") && ($currThesisData['status'] != "Ed
         if (empty($advisorName)) {
             $advisorNameErr = 'Advisor Name is required.';
         }
+        if (empty($abstract)) {
+            $abstractErr = 'Abstract is required.';
+        }
 
         // Check if there are validation errors
         if (!empty($titleErr) || !empty($datePublishedErr) || !empty($advisorNameErr)) {
@@ -47,6 +50,8 @@ if (($currThesisData['status'] != "Delete") && ($currThesisData['status'] != "Ed
                 'status' => 'error',
                 'titleErr' => $titleErr,
                 'datePublishedErr' => $datePublishedErr,
+                'advisorNameErr' => $advisorNameErr,
+                'abstractErr' => $abstractErr,
             ]);
             exit;
         }

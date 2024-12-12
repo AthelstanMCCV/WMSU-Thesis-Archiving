@@ -9,22 +9,27 @@
         <form action="" method="post" id="form-add-thesis">
             <div class="modal-body">
                 <div class="mb-2">
-                    <label for="thesisTitle" class="form-label">Thesis Title</label>
-                    <input type="text" name="thesisTitle" id="thesisTitle" class="form-control" placeholder="Thesis Title">
+                    <label for="studentID" class="form-label">Student ID</label>
+                    <input type="text" name="studentID" id="studentID" class="form-control" placeholder="Student ID">
                     <div class="invalid-feedback"></div>
                 </div>
             
                 <div class="mb-2">
-                    <label for="advisorName" class="form-label">Advisor Name</label>
-                    <input type="text" name="advisorName" id="advisorName" class="form-control" placeholder="Advisor Name">
+                    <label for="lastName" class="form-label">Last Name</label>
+                    <input type="password" name="lastName" id="lastName" class="form-control" placeholder="Last Name">
                     <div class="invalid-feedback"></div>
                 </div>
             
                 <div class="mb-2">
-                    <label for="shortDesc" class="form-label">Short Description</label>
-                    <input type="text" name="shortDesc" id="shortDesc" class="form-control" placeholder="Short Description">
+                    <label for="firstName" class="form-label">First Name</label>
+                    <input type="text" name="firstName" id="firstName" class="form-control" placeholder="First Name">
                     <div class="invalid-feedback"></div>
                 </div>
+                <div class="mb-2">
+                    <label for="middleName" class="form-label">Middle Name</label>
+                    <input type="text" name="middleName" id="middleName" class="form-control" placeholder="Middle Name">
+                    <div class="invalid-feedback"></div>
+                </div>    
                 <div class="mb-2">
                     <label for="datePublished" class="form-label">Published Date</label>
                     <input type="date" name="datePublished" id="datePublished" class="form-control" placeholder="Date Published">
@@ -33,10 +38,17 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-danger brand-bg-color">Add Thesis</button>
+                <button type="submit" class="btn btn-danger brand-bg-color">Add Member</button>
             </div>
 
         </form>
       </div>
     </div>
 </div>
+<form action="" method="POST">
+    <input type="text" name="thesisTitle" id="thesisTitle" placeholder="Thesis Title">
+    <input type="text" name="advisorName" id="advisorName" placeholder="Advisor Name">
+    <input type="text" name="shortDesc" id="shortDesc" placeholder="Short Description">
+    <input type="date" name="datePublished" id="datePublished">
+    <input type="submit" name="addThesis" value="Add Thesis">
+</form>
