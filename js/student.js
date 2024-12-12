@@ -186,6 +186,15 @@ $(document).ready(function () {
               dataType: "html",
               success: function (response) {
                 $("#dashboard-main-display").html(response);
+                    var table = $("#staff-thesis-list").DataTable({
+                        dom: "rtp", // Set DataTable options
+                        pageLength: 10, // Default page length
+                        ordering: false, // Disable ordering
+                    });
+
+                    $("#staff-thesis-search").on("keyup", function () {
+                        table.search(this.value).draw(); // Search products based on input
+                    });
                 },
             });
         }
@@ -197,9 +206,39 @@ $(document).ready(function () {
               dataType: "html",
               success: function (response) {
                 $("#dashboard-main-display").html(response);
+                    var table = $("#staff-thesis-list").DataTable({
+                        dom: "rtp", // Set DataTable options
+                        pageLength: 10, // Default page length
+                        ordering: false, // Disable ordering
+                    });
+
+                    $("#staff-thesis-search").on("keyup", function () {
+                        table.search(this.value).draw(); // Search products based on input
+                    });
+
+                    $("#staff-thesis-list").on("click", ".reqData", function (e) {
+                        e.preventDefault(); // Prevent default behavior
+                        fetchDataRecord(this.dataset.id); // Call function to add product
+                    });
                 },
             });
         }
+
+        function fetchDataRecord(reqData) {
+            $.ajax({
+                type: "GET", // Use GET request
+                url: "../student-view/view-request-thesis-function.php", // URL to get product data
+                data: { id: reqData }, // Pass the ID as part of the request
+                dataType: "html", // Expect HTML response
+                success: function (view) {
+                    // Assuming 'view' contains the new content you want to display
+                    $(".modal-container").empty().html(view); // Load the modal view
+                    $("#reqDataModal").modal("show"); // Show the modal
+                },
+            });
+        }
+
+
         
         // Student View
 

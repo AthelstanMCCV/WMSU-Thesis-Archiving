@@ -102,7 +102,7 @@ Class Thesis{
     }
 
     function setApproveThesis($thesisID){
-        $sql = "UPDATE thesis SET status='Approved' WHERE thesisID = :thesisID";
+        $sql = "UPDATE thesis SET status='Approved', notes='Edit Request Apporoved' WHERE thesisID = :thesisID";
         $qry = $this->db->connect()->prepare($sql);
 
         $qry->bindParam(":thesisID", $thesisID);

@@ -4,43 +4,35 @@ require_once "../classes/thesis.class.php";
 
 $reqObj = new Thesis;
 
-if($_SERVER['REQUEST_METHOD'] == "GET"){
+if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['id'])) {
     $id = $_GET['id'];
-    $thesisData = $reqObj->fetchSpecificRequestThesis($id);
-
+    $thesisData = $reqObj->fetchSpecificRequestThesis($id); // Fetch thesis data for the provided ID
 }
 
 ?>
-    <h3>This is the Data for your Thesis:</h3>
 
-    <div class="table-responsive">
-                <table class="table table-hover align-middle">
-                    <thead>
-                        <tr>
-                            <th id="pending-headerRow"> Date Published </th>
-                            <th id="pending-headerRow"> Advisor </th>
-                            <th id="pending-headerRow"> Thesis ID </th>
-                            <th id="pending-headerRow"> Thesis Title </th>
-                            <th id="pending-headerRow"> Status </th>
-                            <th id="pending-headerRow"> Abstract </th>
-                            <th id="pending-headerRow"> Date Published </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-            <?php
+<div class="modal fade" id="reqDataModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Thesis Data</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <?php foreach($thesisData as $thesis){ ?>
+                <p><strong>Thesis Title: </strong><?php echo $thesis["thesisTitle"]?></p>
+                <p><strong>Thesis ID: </strong><?php echo $thesis["thesisID"]?></p>
+                <p><strong>Advisor: </strong><?php echo $thesis["advisorName"]?></p>
+                <p><strong>Abstract: </strong><?php echo $thesis["abstract"]?></p>
+                <p><strong>Date Published: </strong><?php echo $thesis["datePublished"]?></p>
+                <p><strong>Status: </strong><?php echo $thesis["status"]?></p>
+            <?php }; ?>
+        
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+    </div>
+    </div>
+</div>
 
-            foreach($thesisData as $thesis){ ?>
-                    <tr>
-                        <td><?php echo $thesis["dateAdded"]?></td>
-                        <td><?php echo $thesis["advisorName"]?></td>
-                        <td><?php echo $thesis["thesisID"]?></td>
-                        <td><?php echo $thesis["thesisTitle"]?></td>
-                        <td><?php echo $thesis["status"]?></td>
-                        <td><?php echo $thesis["abstract"]?></td>
-                        <td><?php echo $thesis["datePublished"]?></td>
-                    </tr>
-                    
-            <?php };
-                ?>
-                </tbody>
-            </table>    
+    

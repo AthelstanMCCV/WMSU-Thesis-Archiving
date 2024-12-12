@@ -9,13 +9,13 @@ $reqThesisObj = new Thesis;
         </div>
         <form action="" id="pending-form">
             <div id="pending-search-bar">
-                <input type="search" name="" id="" placeholder="Search">
+                <input type="search" name="" id="staff-thesis-search" placeholder="Search">
                 <img id="search-img" src="../imgs/search-icon.png" alt="">
             </div>
         </form>
    
             <div class="table-responsive">
-                <table class="table table-hover align-middle">
+                <table id="staff-thesis-list" class="table table-hover align-middle">
                     <thead>
                         <tr>
                             <th id="pending-headerRow"> Date Added </th>
@@ -35,7 +35,7 @@ $reqThesisObj = new Thesis;
                         <td><?php echo $thesis["thesisID"]?></td>
                         <td><?php echo $thesis["thesisTitle"]?></td>
                         <td><?php echo $thesis["status"]?></td>
-                        <td> <a href="../student-view/view-request-thesis-function.php?id=<?php echo $thesis['thesisID']; ?>">Request Data</a>
+                        <td> <a id="approveStyle" class="reqData" data-id="<?php echo $thesis['thesisID']; ?>">Request Data</a>
                     </tr>
                     
             <?php };
