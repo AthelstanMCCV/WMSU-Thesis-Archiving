@@ -16,7 +16,6 @@ if( $_SERVER['REQUEST_METHOD'] == "POST"){
     $studIDErr = errNum(validateInput($studID, "number"));
     $lastNameErr = errText(validateInput($lastName, "text"));
     $firstNameErr = errText(validateInput($firstName, "text"));
-    $middleNameErr = errText(validateInput($middleName, "text"));
 
     if(!empty($lastNameErr) || !empty($firstNameErr)){
         header('Content-Type: application/json');
@@ -24,7 +23,6 @@ if( $_SERVER['REQUEST_METHOD'] == "POST"){
             'status' => 'error',
             'lastNameErr' => $lastNameErr,
             'firstNameErr' => $firstNameErr,
-            'middleNameErr' => $middleNameErr,
         ]);
         exit;
     }

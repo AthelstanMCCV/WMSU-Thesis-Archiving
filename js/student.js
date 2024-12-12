@@ -307,6 +307,59 @@ $(document).ready(function () {
                 });
         };
 
+        $(document).on("click", ".deleteMember", function (e) {
+            e.preventDefault();
+        
+            // Get the ID from the clicked button
+            const id = $(this).data("id");
+        
+            // Load the modal
+            $.ajax({
+                type: "GET",
+                url: "../modals/deleteMember-modal.html", // Path to the modal's HTML
+                dataType: "html",
+                success: function (view) {
+                    $(".modal-container").empty().html(view); // Load modal content
+                    $(".deleteMemberRecord").data("id", id); // Pass the ID to the Reject button
+                    $("#deleteMemberModal").modal("show"); // Show the modal
+                    console.log(id);
+                },
+                error: function () {
+                    console.error("Failed to load modal.");
+                },
+            });
+        });
+
+        // Handle the modal's Reject button
+    $(document).on("click", ".deleteMemberRecord", function () {
+        const id = $(this).data("id"); // Get the ID from the Confirm button
+    
+        // AJAX request to approve the account
+        $.ajax({
+            type: "GET",
+            url: "../student-functions/deleteMember.php", // PHP script to handle approval
+            data: { id: id }, // Pass the ID as a parameter
+            dataType: "json",
+            success: function (response) {
+                if (response.status === "success") {
+                    $("#response").text(response.message); // Show success message
+                    // Optionally remove the approved row
+                    $(`tr[data-id='${id}']`).remove();
+                } else {
+                    $("#response").text(response.message); // Show error message
+                }
+                $("#deleteMemberModal").modal("hide"); // Close the modal
+                location.reload();
+            },
+            error: function () {
+                $("#response").text("Error processing the request."); // Handle AJAX errors
+                $("#deleteMemberModal").modal("hide"); // Close the modal
+                location.reload();
+            },
+        });
+    });
+
+
         function editMember(memberID){
             console.log(memberID);
             $.ajax({
@@ -328,13 +381,6 @@ $(document).ready(function () {
                             $("#firstName").next(".invalid-feedback").text(response.firstNameErr).show(); // Show error message
                         }else{
                             $("#firstName").removeClass("is-invalid"); // Remove invalid class if no error
-                        }
-
-                        if (response.middleNameErr) {
-                            $("#middleName").addClass("is-invalid"); // Mark field as invalid
-                            $("#middleName").next(".invalid-feedback").text(response.middleNameErr).show(); // Show error message
-                        }else{
-                            $("#middleName").removeClass("is-invalid"); // Remove invalid class if no error
                         }
                     }else if (response.status === "success") {
                         // On success, hide modal and reset form
