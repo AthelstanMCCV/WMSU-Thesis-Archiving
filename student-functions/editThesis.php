@@ -54,7 +54,7 @@ if(($currThesisData['status'] != "Delete") && ($currThesisData['status'] != "Edi
         }
     
 }else{
-    header("location: ./thesis-list");
+    header("location: ../student/thesis-list");
     exit;
 }
 ?>

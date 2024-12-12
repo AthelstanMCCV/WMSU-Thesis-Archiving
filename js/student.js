@@ -52,79 +52,79 @@ $(document).ready(function () {
                         table.search(this.value).draw(); // Search products based on input
                     });
 
-                    $(".editThesis").on("click", function (e) {
+                    $("#staff-thesis-list").on("click", ".editThesis", function (e) {
                         e.preventDefault(); // Prevent default behavior
                         editThesisRecord(this.dataset.id); // Call function to add product
                     });
-
-                    function editThesisRecord(thesisID) {
-                        console.log(thesisID);
-                        $.ajax({
-                            type: "GET", // Use GET request
-                            url: "../modals/editThesis-modal.html", // URL to get product data
-                            dataType: "html", // Expect JSON response
-                            success: function (view) {
-                            fetchSpecificThesisData(thesisID);  
-                            // Assuming 'view' contains the new content you want to display
-                            $(".modal-container").empty().html(view); // Load the modal view
-                            $("#editThesisModal").modal("show"); // Show the modal
-                            $("#editThesisModal").attr("data-id", thesisID);
-                    
-                            // Event listener for the add product form submission
-                            $("#form-edit-thesis").on("submit", function (e) {
-                              e.preventDefault(); // Prevent default form submission
-                              editThesis(thesisID); // Call function to save product
-                            });
-                          },
-                        });
-                    }
-
-                    function fetchSpecificThesisData(thesisID) {
-                        $.ajax({
-                          url: `../student-functions/fetchThesisData.php?id=${thesisID}`, // URL for fetching categories
-                          type: "POST", // Use GET request
-                          dataType: "json", // Expect JSON response
-                          success: function (currThesisData) {
-                            $("#thesisTitle").val(currThesisData.thesisTitle);
-                            $("#startDate").val(currThesisData.dateAdded);
-                          },
-                        });
-                    }
-
-                    function editThesis(thesisID){
-                        console.log(thesisID);
-                        $.ajax({
-                            type: "POST", // Use POST request
-                            url: `../student-functions/editThesis.php?id=${thesisID}`, // URL for saving product
-                            data: $("form").serialize(), // Serialize the form data for submission
-                            dataType: "json", // Expect JSON response
-                            success: function (response){
-                                if (response.status === "error"){
-                                    if (response.titleErr) {
-                                        $("#thesisTitle").addClass("is-invalid"); // Mark field as invalid
-                                        $("#thesisTitle").next(".invalid-feedback").text(response.titleErr).show(); // Show error message
-                                    }else{
-                                        $("#thesisTitle").removeClass("is-invalid"); // Remove invalid class if no error
-                                    }
-                
-                                    if (response.datePublishedErr) {
-                                        $("#startDate").addClass("is-invalid"); // Mark field as invalid
-                                        $("#startDate").next(".invalid-feedback").text(response.datePublishedErr).show(); // Show error message
-                                    }else{
-                                        $("#startDate").removeClass("is-invalid"); // Remove invalid class if no error
-                                    }
-                                }else if (response.status === "success") {
-                                    // On success, hide modal and reset form
-                                    $("#editThesisModal").modal("hide");
-                                    $("form")[0].reset(); // Reset the form
-                                    // Optionally, reload products to show new entry
-                                    thesisList();
-                                  }
-                            }
-                        })
-                    }
                 },
             });
+        }
+
+        function editThesisRecord(thesisID) {
+            console.log(thesisID);
+            $.ajax({
+                type: "GET", // Use GET request
+                url: "../modals/editThesis-modal.html", // URL to get product data
+                dataType: "html", // Expect JSON response
+                success: function (view) {
+                fetchSpecificThesisData(thesisID);  
+                // Assuming 'view' contains the new content you want to display
+                $(".modal-container").empty().html(view); // Load the modal view
+                $("#editThesisModal").modal("show"); // Show the modal
+                $("#editThesisModal").attr("data-id", thesisID);
+        
+                // Event listener for the add product form submission
+                $("#form-edit-thesis").on("submit", function (e) {
+                  e.preventDefault(); // Prevent default form submission
+                  editThesis(thesisID); // Call function to save product
+                });
+              },
+            });
+        }
+
+        function fetchSpecificThesisData(thesisID) {
+            $.ajax({
+              url: `../student-functions/fetchThesisData.php?id=${thesisID}`, // URL for fetching categories
+              type: "POST", // Use GET request
+              dataType: "json", // Expect JSON response
+              success: function (currThesisData) {
+                $("#thesisTitle").val(currThesisData.thesisTitle);
+                $("#startDate").val(currThesisData.dateAdded);
+              },
+            });
+        }
+
+        function editThesis(thesisID){
+            console.log(thesisID);
+            $.ajax({
+                type: "POST", // Use POST request
+                url: `../student-functions/editThesis.php?id=${thesisID}`, // URL for saving product
+                data: $("form").serialize(), // Serialize the form data for submission
+                dataType: "json", // Expect JSON response
+                success: function (response){
+                    if (response.status === "error"){
+                        if (response.titleErr) {
+                            $("#thesisTitle").addClass("is-invalid"); // Mark field as invalid
+                            $("#thesisTitle").next(".invalid-feedback").text(response.titleErr).show(); // Show error message
+                        }else{
+                            $("#thesisTitle").removeClass("is-invalid"); // Remove invalid class if no error
+                        }
+    
+                        if (response.datePublishedErr) {
+                            $("#startDate").addClass("is-invalid"); // Mark field as invalid
+                            $("#startDate").next(".invalid-feedback").text(response.datePublishedErr).show(); // Show error message
+                        }else{
+                            $("#startDate").removeClass("is-invalid"); // Remove invalid class if no error
+                        }
+                    }else if (response.status === "success") {
+                        // On success, hide modal and reset form
+                        $("#editThesisModal").modal("hide");
+                        $("form")[0].reset(); // Reset the form
+                        // Optionally, reload products to show new entry
+                        thesisList();
+                      }
+                }
+            })
         }
     
         function memberList() {

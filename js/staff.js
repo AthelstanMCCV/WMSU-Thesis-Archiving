@@ -110,7 +110,7 @@ $(document).ready(function () {
                     addStaffModal();
                 });
 
-                $(".editStaff").on("click", function (e) {
+                $("#staff-thesis-list").on("click", ".editStaff", function (e) {
                     e.preventDefault(); // Prevent default behavior
                     editStaffRecord(this.dataset.id); // Call function to add product
                 });
@@ -131,31 +131,30 @@ $(document).ready(function () {
                         },
                         });
                 };
-
-                function editStaffRecord(staffID) {
-                    $.ajax({
-                      type: "GET", // Use GET request
-                      url: "../modals/editStaff-modal.html", // URL to get product data
-                      dataType: "html", // Expect JSON response
-                      success: function (view) {
-                        fetchSpecificStaffData(staffID);
-                        // Assuming 'view' contains the new content you want to display
-                        $(".modal-container").empty().html(view); // Load the modal view
-                        $("#editStaffModal").modal("show"); // Show the modal
-                        $("#editStaffModal").attr("data-id", staffID);
-                
-                        // Event listener for the add product form submission
-                        $("#form-edit-staff").on("submit", function (e) {
-                          e.preventDefault(); // Prevent default form submission
-                          editStaff(staffID); // Call function to save product
-                        });
-                      },
-                    });
-                  }
-                
             },
         });
     }
+
+    function editStaffRecord(staffID) {
+        $.ajax({
+          type: "GET", // Use GET request
+          url: "../modals/editStaff-modal.html", // URL to get product data
+          dataType: "html", // Expect JSON response
+          success: function (view) {
+            fetchSpecificStaffData(staffID);
+            // Assuming 'view' contains the new content you want to display
+            $(".modal-container").empty().html(view); // Load the modal view
+            $("#editStaffModal").modal("show"); // Show the modal
+            $("#editStaffModal").attr("data-id", staffID);
+    
+            // Event listener for the add product form submission
+            $("#form-edit-staff").on("submit", function (e) {
+              e.preventDefault(); // Prevent default form submission
+              editStaff(staffID); // Call function to save product
+            });
+          },
+        });
+      }
 
     function addStaff(){
         $.ajax({
