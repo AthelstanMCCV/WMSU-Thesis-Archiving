@@ -36,6 +36,31 @@ Class Group{
         return $qry->execute();
     }
 
+    function fetchMemberData($ID){
+        $sql = "SELECT * from groupmembers WHERE studentID = :ID";
+        $qry = $this->db->connect()->prepare($sql);
+
+        $qry->bindParam(":ID", $ID);
+
+        $qry->execute();
+        
+        $data = $qry->fetch(PDO::FETCH_ASSOC);
+
+        return $data;
+    }
+
+    function editMembers($ID){
+        $sql = "UPDATE groupmembers SET lastName = :lastName, firstName = :firstName, middleName = :middleName WHERE studentID = :ID";
+        $qry = $this->db->connect()->prepare($sql);
+        
+        $qry->bindParam(":ID", $ID);
+        $qry->bindParam(":lastName", $this->lastName);
+        $qry->bindParam(":firstName", $this->firstName);
+        $qry->bindParam(":middleName", $this->middleName);
+
+        return $qry->execute();
+    }
+
     function fetchGroupMembers($groupID){
         $sql = "SELECT studentID, accounts.username, lastName, firstName, middleName
             from groupmembers LEFT JOIN accounts
