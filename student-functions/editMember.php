@@ -6,9 +6,8 @@ $groupObj = new Group;
 $studID = $_GET['id'];
 
 $memberData = $groupObj->fetchMemberData($studID);
-
 if( $_SERVER['REQUEST_METHOD'] == "POST"){
-    $groupObj->cleanMembers();
+    $groupObj->editCleanMembers();
 
     $lastName = $groupObj->lastName;
     $firstName = $groupObj->firstName; 
@@ -19,7 +18,7 @@ if( $_SERVER['REQUEST_METHOD'] == "POST"){
     $firstNameErr = errText(validateInput($firstName, "text"));
     $middleNameErr = errText(validateInput($middleName, "text"));
 
-    if(!empty($lastNameErr) || !empty($firstNameErr) || !empty($middleNameErr)){
+    if(!empty($lastNameErr) || !empty($firstNameErr)){
         header('Content-Type: application/json');
         echo json_encode([
             'status' => 'error',
@@ -30,7 +29,7 @@ if( $_SERVER['REQUEST_METHOD'] == "POST"){
         exit;
     }
 
-    if (empty($lastNameErr) && empty($firstNameErr) && empty($middleNameErr)){
+    if (empty($lastNameErr) && empty($firstNameErr)){
         $groupObj->editMembers($studID);
         header('Content-Type: application/json');
         echo json_encode(['status' => 'success']);

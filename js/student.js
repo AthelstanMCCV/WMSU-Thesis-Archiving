@@ -338,7 +338,7 @@ $(document).ready(function () {
                         }
                     }else if (response.status === "success") {
                         // On success, hide modal and reset form
-                        $("#form-edit-modal").modal("hide");
+                        $("#editMemberModal").modal("hide");
                         $("form")[0].reset(); // Reset the form
                         // Optionally, reload products to show new entry
                         memberList();

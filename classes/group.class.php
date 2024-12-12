@@ -22,6 +22,12 @@ Class Group{
         $this->firstName = cleanInput($_POST['firstName']);
         $this->middleName = cleanInput($_POST['middleName']);
     }
+
+    function editCleanMembers(){
+        $this->lastName = cleanInput($_POST['lastName']);
+        $this->firstName = cleanInput($_POST['firstName']);
+        $this->middleName = cleanInput($_POST['middleName']);
+    }
     function addMembers($id){
         $sql = "INSERT INTO groupmembers (studentID, groupID, lastName, firstName, middleName)
                 VALUES (:studentID, :groupID, :lastName, :firstName, :middleName)";
