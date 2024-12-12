@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['id'])) {
                 <p><strong>Thesis Title: </strong><?php echo $thesis["thesisTitle"]?></p>
                 <p><strong>Thesis ID: </strong><?php echo $thesis["thesisID"]?></p>
                 <p><strong>Advisor: </strong><?php echo $thesis["advisorName"]?></p>
-                <p><strong>Abstract: </strong><?php echo $thesis["abstract"]?></p>
+                <p><strong>Short Description: </strong><?php echo $thesis["abstract"]?></p>
                 <p><strong>Date Published: </strong><?php echo $thesis["datePublished"]?></p>
                 <p><strong>Status: </strong><?php echo $thesis["status"]?></p>
             <?php }; ?>
