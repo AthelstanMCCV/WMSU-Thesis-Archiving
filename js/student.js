@@ -278,6 +278,11 @@ $(document).ready(function () {
                         e.preventDefault();
                         showMemberModal();
                     });
+
+                    $("#addMemberBtn").on("click", function (e) {
+                        e.preventDefault();
+                        showMemberModal();
+                    });
                 },
             });
         }

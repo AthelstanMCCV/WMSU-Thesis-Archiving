@@ -65,7 +65,7 @@ $studIDErr = $lastNameErr = $firsTNameErr = "";
                         <td><?php echo $data["lastName"]?></td>
                         <td><?php echo $data["firstName"]?></td>
                         <td><?php if(!empty($data['middleName'])){echo $data["middleName"];}else{echo "N/A";}?></td>
-                        <td><a href="../student-functions/editMember.php?id=<?php echo $data['studentID']?>">Edit</a>
+                        <td><a data-id="<?php echo $data['studentID']?>">Edit</a>
                         <a href="../student-functions/deleteMember.php?id=<?php echo $data['studentID']?>">Delete</a></td>
                     </tr>
                 <?php }; ?>
