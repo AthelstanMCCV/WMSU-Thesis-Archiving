@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['id'])) {
                 <p><strong>Status: </strong><?php echo $thesis["status"]?></p>
             <?php }; ?>
         
-        <div class="modal-footer">
+        <div class="modal-footer justify-content-center">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
     </div>

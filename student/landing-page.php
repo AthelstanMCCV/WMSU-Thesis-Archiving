@@ -26,29 +26,20 @@ if (isset($_POST['searchAndSort'])) {
 <?php require_once '../__includes/navbar.php'; ?>
 <body>
     <!-- Hero Section -->
-    <div id="container">
+    <div class="container">
         <div class="hero">
             <img src="../imgs/building.png" alt="WMSU Building">
             <div class="overlay">
                 <p>WESTERN MINDANAO STATE UNIVERSITY</p>
                 <h1>THESIS ARCHIVES</h1>
                 <div class="search-container">
-                    <input type="text" class="form-control" placeholder="Search">
-                    <select class="form-select">
-                        <option value="">Course</option>
-                    </select>
+                    <form id="searchForm" action="" method="POST">
+                        <input type="text" class="form-control" name="searchTerm" id="searchTerm" placeholder="Enter search term" value="<?php echo isset($_POST['searchTerm']) ? $_POST['searchTerm'] : ''; ?>">
+                        <input type="submit" name="searchAndSort" value="Search & Sort">
+                    </form>
                 </div>
             </div>
         </div>
-
-        <form method="POST" action="">
-        <!-- Search Term -->
-        <label for="searchTerm">Search Term (Title/Advisor):</label>
-        <input type="text" name="searchTerm" id="searchTerm" placeholder="Enter search term" value="<?php echo isset($_POST['searchTerm']) ? $_POST['searchTerm'] : ''; ?>"><br><br>
-
-        <!-- Submit Button with name="searchAndSort" -->
-        <input type="submit" name="searchAndSort" value="Search & Sort"><br><br>
-    </form>
 
         <!-- Thesis Cards -->
         <?php 
