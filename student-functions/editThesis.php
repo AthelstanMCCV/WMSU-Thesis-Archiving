@@ -4,16 +4,17 @@ session_start();
 require_once "../classes/thesis.class.php";
 $ediThesisObj = new Thesis;
 $thesisID = $_GET['id'];
-$action = "Edit";
+$action = 'Edit';
+$status = 4;
 
+$ediThesisObj->clearNotes($thesisID);
 // Fetch the thesis data
 $currThesisData = $ediThesisObj->fetchSpecificThesis($thesisID);
 
-if (($currThesisData['status'] != "Delete") && ($currThesisData['status'] != "Edit")) {
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         // Perform actions
-        $ediThesisObj->thesisActionReq($action, $thesisID, $_SESSION['account']['ID']);
+        $ediThesisObj->thesisActionReq($status,$action, $thesisID, $_SESSION['account']['ID']);
         $ediThesisObj->cleanThesis();
 
         // Retrieve form data
@@ -38,7 +39,7 @@ if (($currThesisData['status'] != "Delete") && ($currThesisData['status'] != "Ed
         if (empty($advisorName)) {
             $advisorNameErr = 'Advisor Name is required.';
         }
-        if (empty($abstract)) {
+        if (empty($shortDesc)) {
             $abstractErr = 'Abstract is required.';
         }
 
@@ -62,5 +63,4 @@ if (($currThesisData['status'] != "Delete") && ($currThesisData['status'] != "Ed
                 exit;
         }
     }
-}
 ?>

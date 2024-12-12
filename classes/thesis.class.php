@@ -36,7 +36,7 @@ Class Thesis{
     }
     
     function fetchThesis($groupID){
-        $sql = "SELECT * from thesis WHERE groupID = :groupID" ;
+        $sql = "SELECT *, statusName from thesis LEFT JOIN status ON thesis.status = status.statusID WHERE groupID = :groupID" ;
         $qry = $this->db->connect()->prepare($sql);
 
         $qry->bindParam(":groupID", $groupID);
@@ -74,8 +74,9 @@ Class Thesis{
     }
 
     function fetchAllGroupThesis(){
-        $sql = "SELECT dateAdded, username, thesisID, thesisTitle, thesis.status from thesis 
-                LEFT JOIN accounts ON groupID = accounts.ID";
+        $sql = "SELECT dateAdded, username, thesisID, thesisTitle, statusName from thesis 
+                LEFT JOIN accounts ON groupID = accounts.ID
+                LEFT JOIN status ON thesis.status = status.statusID";
         $qry = $this->db->connect()->prepare($sql);
 
         $qry->execute();
@@ -85,8 +86,9 @@ Class Thesis{
         
     }
     function fetchAllPendingThesis(){
-        $sql = "SELECT datePublished, advisorName, dateAdded, username, thesisID, thesisTitle, abstract, thesis.status from thesis 
-                LEFT JOIN accounts ON groupID = accounts.ID WHERE thesis.status = 'Pending'";
+        $sql = "SELECT datePublished, advisorName, dateAdded, username, thesisID, thesisTitle, abstract, statusName from thesis 
+                LEFT JOIN accounts ON groupID = accounts.ID
+                LEFT JOIN status ON thesis.status = status.statusID WHERE thesis.status = 1";
         $qry = $this->db->connect()->prepare($sql);
 
         $qry->execute();
@@ -97,7 +99,7 @@ Class Thesis{
     }
 
     function setApproveThesis($thesisID){
-        $sql = "UPDATE thesis SET status='Approved', notes='' WHERE thesisID = :thesisID";
+        $sql = "UPDATE thesis SET status=2, notes='' WHERE thesisID = :thesisID";
         $qry = $this->db->connect()->prepare($sql);
 
         $qry->bindParam(":thesisID", $thesisID);
@@ -106,7 +108,7 @@ Class Thesis{
     }
 
     function fetchNotPendingThesis(){
-        $sql = "SELECT * from thesis WHERE status != 'Pending'";
+        $sql = "SELECT * from thesis WHERE status != 1";
         $qry = $this->db->connect()->prepare($sql);
 
         $qry->execute();
@@ -116,7 +118,7 @@ Class Thesis{
     }
 
     function fetchApprovedThesis($groupID){
-        $sql = "SELECT * from thesis WHERE status = 'Approved' AND groupID = :groupID";
+        $sql = "SELECT *,statusName from thesis LEFT JOIN status ON thesis.status = status.statusID WHERE STATUS = 2 AND groupID = :groupID";
         $qry = $this->db->connect()->prepare($sql);
 
         $qry->bindParam(":groupID", $groupID);
@@ -130,7 +132,7 @@ Class Thesis{
     function fetchAllApprovedThesis(){
         $sql = "SELECT * from thesis 
         LEFT JOIN accounts ON thesis.groupID = accounts.ID
-        WHERE thesis.status = 'Approved'";
+        WHERE thesis.STATUS = 2";
         $qry = $this->db->connect()->prepare($sql);
 
         $qry->execute();
@@ -141,7 +143,7 @@ Class Thesis{
 
     function fetchSpecificThesis($thesisID){
 
-        $sql = "SELECT * FROM thesis WHERE thesisID = :thesisID";
+        $sql = "SELECT *,statusName FROM thesis LEFT JOIN status ON thesis.status = status.statusID WHERE thesisID = :thesisID";
         $qry = $this->db->connect()->prepare($sql);
         
         $qry->bindParam(":thesisID", $thesisID);
@@ -153,7 +155,7 @@ Class Thesis{
     }
     function fetchSpecificRequestThesis($thesisID){
 
-        $sql = "SELECT * FROM thesis WHERE thesisID = :thesisID";
+        $sql = "SELECT *, statusName FROM thesis LEFT JOIN status ON thesis.status = status.statusID WHERE thesisID = :thesisID";
         $qry = $this->db->connect()->prepare($sql);
         
         $qry->bindParam(":thesisID", $thesisID);
@@ -192,7 +194,7 @@ Class Thesis{
     }
 
     function validateApproval($thesisID){
-        $sql = "SELECT COUNT(*) from thesis_approval WHERE thesisID = :thesisID AND status = 'Approved'" ;
+        $sql = "SELECT COUNT(*) from thesis_approval WHERE thesisID = :thesisID AND STATUS =2" ;
         $qry = $this->db->connect()->prepare($sql);
 
         $qry->bindParam(":thesisID", $thesisID);
@@ -222,8 +224,8 @@ Class Thesis{
     function hasConflict($thesisID) {
         $sql = "
             SELECT 
-                COUNT(DISTINCT CASE WHEN status = 'Approved' THEN staffID END) AS approvals,
-                COUNT(DISTINCT CASE WHEN status = 'Rejected' THEN staffID END) AS rejections
+                COUNT(DISTINCT CASE WHEN STATUS = 2 THEN staffID END) AS approvals,
+                COUNT(DISTINCT CASE WHEN STATUS = 3 THEN staffID END) AS rejections
             FROM thesis_approval
             WHERE thesisID = :thesisID";
     
@@ -237,7 +239,7 @@ Class Thesis{
     
     function approveThesis($staffID, $groupID, $thesisID, $status){
 
-        $sql = "UPDATE thesis SET status = 'Approved' WHERE thesisID = :thesisID";
+        $sql = "UPDATE thesis SET STATUS = 2 WHERE thesisID = :thesisID";
         $qry = $this->db->connect()->prepare($sql);
 
         $qry->bindParam(":thesisID", $thesisID);
@@ -271,7 +273,7 @@ Class Thesis{
     }
 
     function rejectThesis($staffID, $groupID, $thesisID, $status){
-        $sql = "UPDATE thesis SET status='Rejected' WHERE thesisID = :thesisID";
+        $sql = "UPDATE thesis SET status=3 WHERE thesisID = :thesisID";
         $qry = $this->db->connect()->prepare($sql);
 
         $qry->bindParam(":thesisID", $thesisID);
@@ -293,10 +295,11 @@ Class Thesis{
     }
 
     function fetchThesisLogs($groupID){
-        $sql = "SELECT approvalID, accounts.username, thesisTitle, thesislogs.status, actionDate  from thesislogs LEFT JOIN thesis
+        $sql = "SELECT approvalID, accounts.username, thesisTitle, status.statusName, actionDate  from thesislogs LEFT JOIN thesis
                 ON thesislogs.thesisID = thesis.thesisID
                 LEFT JOIN accounts ON thesislogs.staffID = accounts.ID
-                LEFT JOIN staffaccounts ON thesislogs.staffID = staffaccounts.ID WHERE thesislogs.groupID = :groupID";
+                LEFT JOIN staffaccounts ON thesislogs.staffID = staffaccounts.ID
+                LEFT JOIN status ON thesislogs.status = status.statusID WHERE thesislogs.groupID = :groupID";
         $qry = $this->db->connect()->prepare($sql);
 
         $qry->bindParam(":groupID", $groupID);
@@ -308,9 +311,10 @@ Class Thesis{
     }
 
     function fetchThesisEditReq(){
-        $sql = "SELECT thesisActionReqID, username, thesiseditreq.thesisID, thesisTitle, abstract, dateRequested, action FROM thesisactionreq 
+        $sql = "SELECT thesisActionReqID, username, thesiseditreq.advisorName, thesis.thesisID, thesiseditreq.thesisTitle, thesiseditreq.abstract, dateRequested, action FROM thesiseditreq 
                 LEFT JOIN accounts ON groupID = accounts.ID
-                LEFT JOIN thesiseditreq ON thesiseditreq.thesisID = thesisactionreq.thesisID" ;
+                LEFT JOIN thesisactionreq ON thesiseditreq.thesisID = thesisactionreq.thesisID
+                LEFT JOIN thesis ON thesis.thesisID = thesiseditreq.thesisID";
         $qry = $this->db->connect()->prepare($sql);
 
         $qry->execute();
@@ -320,7 +324,7 @@ Class Thesis{
     }
 
     function fetchSpecificEditReq($thesisID){
-        $sql = "SELECT * FROM thesiseditreq WHERE thesisID = :thesisID";
+        $sql = "SELECT *, statusName FROM thesiseditreq LEFT JOIN status ON thesiseditreq.status = status.statusID WHERE thesisID = :thesisID";
         $qry = $this->db->connect()->prepare($sql);
 
         $qry->bindParam(":thesisID", $thesisID);
@@ -344,7 +348,7 @@ Class Thesis{
     return $data;
     }
 
-    function confirmEdit($thesisID, $thesisTitle, $datePublished, $reqID){
+    function confirmEdit($thesisID, $thesisTitle, $datePublished, $reqID, $shortDesc){
         $sql2 = "DELETE FROM thesisactionreq WHERE thesisActionReqID = :reqID";
         $qry2 = $this->db->connect()->prepare($sql2);
 
@@ -359,23 +363,24 @@ Class Thesis{
 
         $qry3->execute();
 
-            $sql = "UPDATE thesis SET thesisTitle = :thesisTitle, datePublished = :datePublished WHERE thesisID = :thesisID";
+            $sql = "UPDATE thesis SET thesisTitle = :thesisTitle, datePublished = :datePublished, abstract = :shortDesc WHERE thesisID = :thesisID";
             $qry = $this->db->connect()->prepare($sql);
 
             $qry->bindParam(":thesisID", $thesisID);
             $qry->bindParam(":thesisTitle", $thesisTitle);
             $qry->bindParam(":datePublished", $datePublished);
+            $qry->bindParam(":shortDesc", $shortDesc);
 
             return $qry->execute();
     }
 
-    function thesisActionReq($action, $thesisID, $groupID){
+    function thesisActionReq($status, $action, $thesisID, $groupID){
 
-        $sql = "UPDATE thesis SET status = :action WHERE thesisID = :thesisID";
+        $sql = "UPDATE thesis SET status = :status WHERE thesisID = :thesisID";
         $qry = $this->db->connect()->prepare($sql);
 
         $qry->bindParam(":thesisID", $thesisID);
-        $qry->bindParam(":action", $action);
+        $qry->bindParam(":status", $status);
 
         $qry->execute();
 
@@ -448,8 +453,15 @@ Class Thesis{
             return $qry2->execute();
     }
 
-    function denyThesis($thesisID){
-        $sql = "UPDATE thesis SET status='Approved', notes ='Edit Request Denied'  WHERE thesisID = :thesisID";
+    function denyThesis($thesisID, $action){
+
+        if($action == 'Edit'){
+        $sql = "UPDATE thesis SET status=2, notes ='Edit Request Denied'  WHERE thesisID = :thesisID";
+        }
+
+        if($action == 'Delete'){
+        $sql = "UPDATE thesis SET status=2, notes ='Delete Request Denied'  WHERE thesisID = :thesisID";
+        }
         $qry = $this->db->connect()->prepare($sql);
 
         $qry->bindParam(":thesisID", $thesisID);
@@ -460,7 +472,7 @@ Class Thesis{
     function searchAndSortApprovedTheses($searchTerm) {
         $sql = "SELECT thesis.datePublished, accounts.username, thesis.advisorName, thesis.thesisTitle, thesis.abstract
                 FROM thesis
-                LEFT JOIN accounts ON thesis.groupID = accounts.ID WHERE (thesisTitle LIKE :searchTerm OR advisorName LIKE :searchTerm) AND thesis.status = 'Approved'";
+                LEFT JOIN accounts ON thesis.groupID = accounts.ID WHERE (thesisTitle LIKE :searchTerm OR advisorName LIKE :searchTerm) AND thesis.STATUS = 2";
             
             $qry = $this->db->connect()->prepare($sql);
     
@@ -474,8 +486,18 @@ Class Thesis{
             return $results;
         }
 
+    function clearNotes($thesisID){
+        $sql = "UPDATE thesis SET notes='' WHERE thesisID = :thesisID";
+        $qry = $this->db->connect()->prepare($sql);
+
+        $qry->bindParam(":thesisID", $thesisID);
+
+        return $qry->execute();
+        
+    }
+
     function validateRejection($thesisID){
-        $sql = "SELECT COUNT(*) from thesis_approval WHERE thesisID = :thesisID AND status = 'Rejected'" ;
+        $sql = "SELECT COUNT(*) from thesis_approval WHERE thesisID = :thesisID AND STATUS = 3" ;
         $qry = $this->db->connect()->prepare($sql);
 
         $qry->bindParam(":thesisID", $thesisID);

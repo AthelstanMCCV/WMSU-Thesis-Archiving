@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['id'])) {
                 <p><strong>Advisor: </strong><?php echo $thesis["advisorName"]?></p>
                 <p><strong>Short Description: </strong><?php echo $thesis["abstract"]?></p>
                 <p><strong>Date Published: </strong><?php echo $thesis["datePublished"]?></p>
-                <p><strong>Status: </strong><?php echo $thesis["status"]?></p>
+                <p><strong>Status: </strong><?php echo $thesis["statusName"]?></p>
             <?php }; ?>
         
         <div class="modal-footer justify-content-center">

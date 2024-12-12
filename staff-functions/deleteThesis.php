@@ -12,21 +12,13 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
         $currThesisStatus = $thesisObj->fetchThesisStatus($thesisID); // Fetch the current thesis status
 
         // Check if the current status is not "Delete" or "Edit"
-        if ($currThesisStatus != "Delete" && $currThesisStatus != "Edit") {
+        if ($currThesisStatus != 5 && $currThesisStatus != 4) {
             $action = "Delete";
-
-            // Handle "Delete Request" status
-            if ($currThesisStatus == 'Delete Request') {
-                echo json_encode([
-                    "status" => "info",
-                    "message" => "The thesis is already marked for deletion."
-                ]);
-                exit;
-            }
+            $status = 5;
 
             // Process the delete action request
             try {
-                $thesisObj->thesisActionReq($action, $thesisID, $groupID);
+                $thesisObj->thesisActionReq($status,$action, $thesisID, $groupID);
                 echo json_encode([
                     "status" => "success",
                     "message" => "Thesis marked for deletion successfully."

@@ -20,7 +20,7 @@ $studIDErr = $lastNameErr = $firsTNameErr = "";
         $firstNameErr = errText(validateInput($firstName, "text"));
         $middleNameErr = errText(validateInput($middleName, "text"));
 
-        if(!empty($studIDErr) || !empty($lastNameErr) || !empty($firstNameErr) || !empty($middleNameErr)){
+        if(!empty($studIDErr) || !empty($lastNameErr) || !empty($firstNameErr)){
             header('Content-Type: application/json');
             echo json_encode([
                 'status' => 'error',

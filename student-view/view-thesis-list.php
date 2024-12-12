@@ -26,6 +26,7 @@ $thesisObj = new Thesis;
                 <th id="pending-headerRow"> Thesis ID </th>
                 <th id="pending-headerRow"> Advisor Name</th>
                 <th id="pending-headerRow"> Thesis Title </th>
+                <th id="pending-headerRow"> Short Description </th>
                 <th id="pending-headerRow"> Status </th>
                 <th id="pending-headerRow"> Notes </th>
                 <th id="pending-headerRow"> Actions </th>
@@ -41,12 +42,13 @@ $thesisObj = new Thesis;
                 <td><?php echo $thesis["thesisID"]?></td>
                 <td><?php echo $thesis["advisorName"]?></td>
                 <td><?php echo $thesis["thesisTitle"]?></td>
-                <td><?php echo $thesis["status"]?></td>
+                <td><?php echo $thesis["abstract"]?></td>
+                <td><?php echo $thesis["statusName"]?></td>
                 <td><?php echo $thesis["notes"]?></td>
-                <?php if ($thesis['status'] != 'Pending' && $thesis['status'] != 'Edit' && $thesis['status'] != 'Delete' && $thesis['status'] != 'Rejected'){?>
+                <?php if ($thesis['status'] != 1 && $thesis['status'] != 4  && $thesis['status'] != 3 && $thesis['status'] != 5){?>
                     <td id="actions">
                         <a id="approveStyle" class="editThesis" data-id="<?php echo $thesis['thesisID'];?>" type="button">Edit</a> 
-                        <a id="rejectStyle" href="../student/deleteThesis.php?id=<?php echo $thesis['thesisID']; ?>&index=<?php echo $index;?>">Delete</a>
+                        <a id="rejectStyle" href="../student-functions/deleteThesis.php?id=<?php echo $thesis['thesisID']; ?>&index=<?php echo $index;?>">Delete</a>
                     </td>
                 <?php 
                     }else{

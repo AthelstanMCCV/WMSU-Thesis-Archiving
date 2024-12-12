@@ -34,7 +34,7 @@ $thesisApproveObj = new Thesis;
                 <td><?php echo $data["approvalID"] ?></td>
                 <td><?php echo $data["username"]?></td>
                 <td><?php echo $data["thesisTitle"]?></td>
-                <td><?php echo $data["status"]?></td>
+                <td><?php echo $data["statusName"]?></td>
                 <td><?php echo $data["actionDate"]?></td>
             </tr>
     <?php }; ?>

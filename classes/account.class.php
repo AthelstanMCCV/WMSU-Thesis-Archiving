@@ -52,7 +52,7 @@ require_once __DIR__ . "/db_connection.class.php";
 // ACCOUNT REQUEST
         function accountRequest($deptID, $courseID){
             $sql = "INSERT INTO accounts (username, password, role, status, email, department, course) 
-            VALUES (:username, :password, 3, 'Pending', :email, :deptID, :courseID)";
+            VALUES (:username, :password, 3, 1, :email, :deptID, :courseID)";
             $qry = $this->db->connect()->prepare($sql);
 
             $hashPass = password_hash($this->password, PASSWORD_DEFAULT);
@@ -74,7 +74,7 @@ require_once __DIR__ . "/db_connection.class.php";
 // STUDENT ACCOUNT TABLE
         function fetchData(){
             $sql = "SELECT *,departmentName, courseName from accounts LEFT JOIN department on departmentID = accounts.department
-            LEFT JOIN courses on courseID = accounts.course WHERE role = 3 AND status='Pending'";
+            LEFT JOIN courses on courseID = accounts.course WHERE role = 3 AND status=1";
             $qry = $this->db->connect()->prepare($sql);
 
             $qry->execute();
@@ -125,7 +125,7 @@ require_once __DIR__ . "/db_connection.class.php";
         // Push approved Accounts into accounts table;
         function approveAccount($id){
 
-                $sql2 = "UPDATE accounts SET status = 'Approved' WHERE id = :id AND role = 3";
+                $sql2 = "UPDATE accounts SET STATUS = 2 WHERE id = :id AND role = 3";
                 $qry2 = $this->db->connect()->prepare($sql2);
 
                 $qry2->bindParam(":id", $id);
@@ -202,7 +202,7 @@ require_once __DIR__ . "/db_connection.class.php";
 
 // function addAccount($deptID = NULL, $courseID = NULL){
 //     $sql = "INSERT INTO accounts (username, password, role, status, email, department, course) 
-//     VALUES (:username, :password, 2, 'Approved', :email, :deptID, :courseID)";
+//     VALUES (:username, :password, 2, 2, :email, :deptID, :courseID)";
 //     $qry = $this->db->connect()->prepare($sql);
 
 //     $hashPass = password_hash($this->password, PASSWORD_DEFAULT);

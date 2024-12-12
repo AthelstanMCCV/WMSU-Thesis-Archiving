@@ -38,7 +38,7 @@ $thesisObj = new Thesis;
                 <td><?php echo $thesis["username"]?></td>
                 <td><?php echo $thesis["thesisID"]?></td>
                 <td><?php echo $thesis["thesisTitle"]?></td>
-                <td><?php echo $thesis["status"]?></td>
+                <td><?php echo $thesis["statusName"]?></td>
             </tr>
             <?php }; ?>
         </tbody>

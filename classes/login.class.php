@@ -32,7 +32,7 @@ require_once __DIR__ . "/db_connection.class.php";
                     return $data;
                 }
 
-                if ($data['role'] == 3 && $data['status'] == 'Approved' && password_verify($this->password, $data['password'])){
+                if ($data['role'] == 3 && $data['status'] == 2 && password_verify($this->password, $data['password'])){
                     return $data;
                 }
             }

@@ -3,27 +3,30 @@ session_start();
 require_once "../classes/thesis.class.php";
 
 $thesisObj = new Thesis;
-
+$thesisID= $_GET['id'];
 $currThesisStatus = $thesisObj->fetchThesisStatus($thesisID);
 
-if($currThesisStatus != "Delete" && $currThesisStatus != "Edit"){
+$thesisObj->clearNotes($thesisID);
+
+if($currThesisStatus != 5 && $currThesisStatus != 4){
 
     if($_SERVER['REQUEST_METHOD'] == "GET"){
-        $thesisID= $_GET['id'];
+   
         $groupID = $_SESSION['account']['ID'];
         $action = "Delete";
+        $status = 5;
         
-        if($currThesisStatus == 'Delete Request'){
-            header("location: ../student/thesis-list.php");
+        if($currThesisStatus == 5){
+            header("location: ../student/thesis-list");
             exit;
         }
-        $thesisObj->thesisActionReq($action, $thesisID, $groupID);
-        header("location: ../student/thesis-list.php");
+        $thesisObj->thesisActionReq($status, $action, $thesisID, $groupID);
+        header("location: ../student/thesis-list");
         exit;
     }
 
 }else{
-    header("location: ./student/thesis-list");
+    header("location: ../student/thesis-list");
     exit;
 }
 

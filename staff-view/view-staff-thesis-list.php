@@ -39,11 +39,11 @@ $(document).ready(function () {
     <?php } 
 
 
-    if(($thesisObj->validateApproval($_SESSION['currThesis']['ID']) && ($_SESSION['currThesis']['status'] == "Approved"))){
+    if(($thesisObj->validateApproval($_SESSION['currThesis']['ID']) && ($_SESSION['currThesis']['status'] == 2))){
 
         $thesisObj->approveThesis($_SESSION['account']['ID'], $_SESSION['currThesis']['groupID'],$_SESSION['currThesis']['ID'],$_SESSION['currThesis']['status']);
     }
-    if(($thesisObj->validateRejection($_SESSION['currThesis']['ID']) && ($_SESSION['currThesis']['status'] == "Rejected"))){
+    if(($thesisObj->validateRejection($_SESSION['currThesis']['ID']) && ($_SESSION['currThesis']['status'] == 3))){
         
         $thesisObj->rejectThesis($_SESSION['account']['ID'], $_SESSION['currThesis']['groupID'],$_SESSION['currThesis']['ID'],$_SESSION['currThesis']['status']);
     }
@@ -96,7 +96,7 @@ $(document).ready(function () {
                 <td><?php echo $thesis["thesisID"]?></td>
                 <td><?php echo $thesis["thesisTitle"]?></td>
                 <td><?php echo $thesis["abstract"]?></td>
-                <td><?php echo $thesis["status"]?></td>
+                <td><?php echo $thesis["statusName"]?></td>
                 <td id="actions" class="action <?php echo $hideActions; ?>">
                     <a id="approveStyle" class="staffApprove" data-id="<?php echo $thesis['thesisID']; ?>" type="button">Approve</a>
                     <a id="rejectStyle" class="staffReject" data-id="<?php echo $thesis['thesisID']; ?>" type="button">Reject</a>

@@ -14,7 +14,7 @@ if ($reqData['action'] == "Delete"){
 }
 
 if ($reqData['action'] == "Edit"){
-    $confirmObj->confirmEdit($reqEditData['thesisID'], $reqEditData['thesisTitle'], $reqEditData['datePublished'], $reqID);
+    $confirmObj->confirmEdit($reqEditData['thesisID'], $reqEditData['thesisTitle'], $reqEditData['datePublished'], $reqID, $reqEditData['abstract']);
     $confirmObj->setApproveThesis($reqEditData['thesisID']);
 }
 

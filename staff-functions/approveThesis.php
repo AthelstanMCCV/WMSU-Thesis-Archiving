@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
         // Update the session data
         $_SESSION['currThesis']['ID'] = $thesisID;
         $staffID = $_SESSION['account']['ID'];
-        $_SESSION['currThesis']['status'] = "Approved";
+        $_SESSION['currThesis']['status'] = 2;
         $_SESSION['currThesis']['groupID'] = $thesisObj->fetchgroupID($thesisID);
 
         // Pass the data to the approval process
