@@ -61,22 +61,22 @@ $(document).ready(function () {
         }
 
         function editThesisRecord(thesisID) {
-            console.log(thesisID);
             $.ajax({
-                type: "GET", // Use GET request
-                url: "../modals/editThesis-modal.html", // URL to get product data
-                dataType: "html", // Expect JSON response
-                success: function (view) {
-                fetchSpecificThesisData(thesisID);  
+              type: "GET", // Use GET request
+              url: "../modals/editThesis-modal.html", // URL to get product data
+              dataType: "html", // Expect JSON response
+              success: function (view) {
+                fetchSpecificThesisData(thesisID);
                 // Assuming 'view' contains the new content you want to display
                 $(".modal-container").empty().html(view); // Load the modal view
                 $("#editThesisModal").modal("show"); // Show the modal
                 $("#editThesisModal").attr("data-id", thesisID);
-        
+                
                 // Event listener for the add product form submission
-                $("#form-edit-thesis").on("submit", function (e) {
-                  e.preventDefault(); // Prevent default form submission
-                  editThesis(thesisID); // Call function to save product
+                $("#form-edit-thesis").on("submit", function(e) {
+                    e.preventDefault();  // Prevent default form submission
+                    console.log("Form submitted via AJAX");  // Debugging message
+                    editThesis(thesisID);  // Call the function to submit the form via AJAX
                 });
               },
             });
@@ -89,43 +89,75 @@ $(document).ready(function () {
               dataType: "json", // Expect JSON response
               success: function (currThesisData) {
                 $("#thesisTitle").val(currThesisData.thesisTitle);
-                $("#startDate").val(currThesisData.dateAdded);
+                $("#datePublished").val(currThesisData.datePublished);
               },
             });
         }
 
-        function editThesis(thesisID){
-            console.log(thesisID);
+        function editThesis(thesisID) {
+            // Flag to track if there are any validation errors
+            let hasErrors = false;
+        
+            // Clear previous errors
+            $(".is-invalid").removeClass("is-invalid");
+            $(".invalid-feedback").hide();
+        
+            // Validate Thesis Title
+            let thesisTitle = $("#thesisTitle").val();
+            if (!thesisTitle) {
+                hasErrors = true;
+                $("#thesisTitle").addClass("is-invalid");
+                $("#thesisTitle").next(".invalid-feedback").text("Thesis Title is required.").show();
+            }
+        
+            // Validate Date Published
+            let datePublished = $("#datePublished").val();
+            if (!datePublished) {
+                hasErrors = true;
+                $("#datePublished").addClass("is-invalid");
+                $("#datePublished").next(".invalid-feedback").text("Date Published is required.").show();
+            }
+        
+            // If there are errors, prevent form submission
+            if (hasErrors) {
+                return false; // This will prevent the form from submitting
+            }
+        
+            // If no errors, proceed with AJAX submission
             $.ajax({
-                type: "POST", // Use POST request
-                url: `../student-functions/editThesis.php?id=${thesisID}`, // URL for saving product
-                data: $("form").serialize(), // Serialize the form data for submission
+                type: "POST",
+                url: `../student-functions/editThesis.php?id=${thesisID}`, // PHP script URL
+                data: $("#form-edit-thesis").serialize(), // Serialize form data
                 dataType: "json", // Expect JSON response
-                success: function (response){
-                    if (response.status === "error"){
+                success: function (response) {
+                    console.log("AJAX Success:", response);
+                    if (response.status === "error") {
+                        // Handle validation errors again in case of server-side validation
                         if (response.titleErr) {
-                            $("#thesisTitle").addClass("is-invalid"); // Mark field as invalid
-                            $("#thesisTitle").next(".invalid-feedback").text(response.titleErr).show(); // Show error message
-                        }else{
-                            $("#thesisTitle").removeClass("is-invalid"); // Remove invalid class if no error
+                            $("#thesisTitle").addClass("is-invalid");
+                            $("#thesisTitle").next(".invalid-feedback").text(response.titleErr).show();
                         }
-    
                         if (response.datePublishedErr) {
-                            $("#startDate").addClass("is-invalid"); // Mark field as invalid
-                            $("#startDate").next(".invalid-feedback").text(response.datePublishedErr).show(); // Show error message
-                        }else{
-                            $("#startDate").removeClass("is-invalid"); // Remove invalid class if no error
+                            $("#datePublished").addClass("is-invalid");
+                            $("#datePublished").next(".invalid-feedback").text(response.datePublishedErr).show();
                         }
-                    }else if (response.status === "success") {
-                        // On success, hide modal and reset form
+                    } else if (response.status === "success") {
+                        // Hide the modal and reset the form
                         $("#editThesisModal").modal("hide");
-                        $("form")[0].reset(); // Reset the form
-                        // Optionally, reload products to show new entry
-                        thesisList();
-                      }
+                        $("#form-edit-thesis")[0].reset();
+                        setTimeout(function () {
+                            location.reload();
+                        }, 500);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("AJAX Error:", status, error);
+                    console.error("Response text:", xhr.responseText);
                 }
-            })
+            });
         }
+        
+        
     
         function memberList() {
             $.ajax({
@@ -134,6 +166,15 @@ $(document).ready(function () {
               dataType: "html",
               success: function (response) {
                 $("#dashboard-main-display").html(response);
+                    var table = $("#staff-thesis-list").DataTable({
+                        dom: "rtp", // Set DataTable options
+                        pageLength: 10, // Default page length
+                        ordering: false, // Disable ordering
+                    });
+
+                    $("#staff-thesis-search").on("keyup", function () {
+                        table.search(this.value).draw(); // Search products based on input
+                    });
                 },
             });
         }

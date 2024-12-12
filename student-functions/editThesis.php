@@ -6,35 +6,38 @@ $ediThesisObj = new Thesis;
 $thesisID = $_GET['id'];
 $action = "Edit";
 
+// Fetch the thesis data
 $currThesisData = $ediThesisObj->fetchSpecificThesis($thesisID);
 
-var_export($currThesisData);
-if(($currThesisData['status'] != "Delete") && ($currThesisData['status'] != "Edit")){
+if (($currThesisData['status'] != "Delete") && ($currThesisData['status'] != "Edit")) {
+    if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
+        // Perform actions
+        $ediThesisObj->thesisActionReq($action, $thesisID, $_SESSION['account']['ID']);
+        $ediThesisObj->cleanThesis();
 
-    if($_SERVER['REQUEST_METHOD'] == "POST"){
+        // Retrieve form data
+        $thesisTitle = $ediThesisObj->thesisTitle;
+        $datePublished = $ediThesisObj->datePublished;
+        $groupID = $_SESSION['account']['ID'];
 
-            $ediThesisObj->thesisActionReq($action, $thesisID, $_SESSION['account']['ID']);
+        // Initialize error messages
+        $titleErr = $datePublishedErr = '';
 
-            $ediThesisObj->cleanThesis();
-
-            $thesisTitle = $ediThesisObj->thesisTitle;
-            $datePublished = $ediThesisObj->datePublished;
-            
-            $groupID = $_SESSION['account']['ID'];
-
-
-            $titleErr = $datePublishedErr = '';
-
-        if(empty($thesisTitle)){
+        // Validate Thesis Title
+        if (empty($thesisTitle)) {
             $titleErr = 'Thesis Title is required.';
         }
 
-        if(empty($datePublished)){
+        // Validate Date Published
+        if (empty($datePublished)) {
             $datePublishedErr = 'Date Published is required.';
         }
 
-        if(!empty($titleErr) || !empty($datePublishedErr)){
+        // Check if there are validation errors
+        if (!empty($titleErr) || !empty($datePublishedErr)) {
+            // Return error response if validation fails
+            header('Content-Type: application/json');
             echo json_encode([
                 'status' => 'error',
                 'titleErr' => $titleErr,
@@ -42,19 +45,12 @@ if(($currThesisData['status'] != "Delete") && ($currThesisData['status'] != "Edi
             ]);
             exit;
         }
-
-            if(empty($titleErr) && empty($datePublishedErr)){
-                if($ediThesisObj->reqeditThesis($thesisID, $groupID)){
-                    echo json_encode(['status' => 'success']);
-                }else {
-                    echo json_encode(['status' => 'error', 'message' => 'Something went wrong when adding the new product.']);
-                }
+        if (empty($titleErr) && empty($datePublishedErr)) {
+            $ediThesisObj->reqeditThesis($thesisID, $groupID);
+                header('Content-Type: application/json');
+                echo json_encode(['status' => 'success']);
                 exit;
-            }
         }
-    
-}else{
-    header("location: ../student/thesis-list");
-    exit;
+    }
 }
 ?>
