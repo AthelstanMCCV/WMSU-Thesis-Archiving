@@ -14,16 +14,15 @@ if( $_SERVER['REQUEST_METHOD'] == "POST"){
     $firstName = $groupObj->firstName; 
     $middleName = $groupObj->middleName;
 
-    $studIDErr = errNum(validateInput($studentID, "number"));
+    $studIDErr = errNum(validateInput($studID, "number"));
     $lastNameErr = errText(validateInput($lastName, "text"));
-    $firsTNameErr = errText(validateInput($firstName, "text"));
+    $firstNameErr = errText(validateInput($firstName, "text"));
     $middleNameErr = errText(validateInput($middleName, "text"));
 
-    if(!empty($studIDErr) || !empty($lastNameErr) || !empty($firstNameErr) || !empty($middleNameErr)){
+    if(!empty($lastNameErr) || !empty($firstNameErr) || !empty($middleNameErr)){
         header('Content-Type: application/json');
         echo json_encode([
             'status' => 'error',
-            'studIDErr' => $studIDErr,
             'lastNameErr' => $lastNameErr,
             'firstNameErr' => $firstNameErr,
             'middleNameErr' => $middleNameErr,
@@ -31,13 +30,11 @@ if( $_SERVER['REQUEST_METHOD'] == "POST"){
         exit;
     }
 
-    if (empty($lastNameErr) && empty($firstNameErr)){
+    if (empty($lastNameErr) && empty($firstNameErr) && empty($middleNameErr)){
         $groupObj->editMembers($studID);
         header('Content-Type: application/json');
         echo json_encode(['status' => 'success']);
         exit;
-        
-    
     }
 }
 ?>

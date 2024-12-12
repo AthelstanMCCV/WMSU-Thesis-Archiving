@@ -279,11 +279,84 @@ $(document).ready(function () {
                         showMemberModal();
                     });
 
-                    $("#addMemberBtn").on("click", function (e) {
-                        e.preventDefault();
-                        showMemberModal();
+                    $("#staff-thesis-list").on("click", ".editMember", function (e) {
+                        e.preventDefault(); // Prevent default behavior
+                        showEditModal(this.dataset.id); // Call function to add product
                     });
                 },
+            });
+        }
+
+        function showEditModal(memberID) {
+            console.log(memberID);
+            $.ajax({
+            type: "GET",
+            url: "../modals/editMember-modal.html",
+            dataType: "html",
+                success: function (view) {
+                    fetchSpecificMemberData(memberID);
+                    $(".modal-container").empty().html(view);
+                    $("#editMemberModal").modal("show");
+                    $("#editMemberModal").attr("data-id", memberID);
+
+                    $("#form-edit-modal").on("submit", function (e) {
+                        e.preventDefault(); // Prevent default form submission
+                        editMember(memberID); // Call function to save product
+                      });
+                },
+                });
+        };
+
+        function editMember(memberID){
+            console.log(memberID);
+            $.ajax({
+                type: "POST", // Use POST request
+                url: `../student-functions/editMember.php?id=${memberID}`, // URL for saving product
+                data: $("form").serialize(), // Serialize the form data for submission
+                dataType: "json", // Expect JSON response
+                success: function (response){
+                    if (response.status === "error"){    
+                        if (response.lastNameErr) {
+                            $("#lastName").addClass("is-invalid"); // Mark field as invalid
+                            $("#lastName").next(".invalid-feedback").text(response.lastNameErr).show(); // Show error message
+                        }else{
+                            $("#lastName").removeClass("is-invalid"); // Remove invalid class if no error
+                        }
+    
+                        if (response.firstNameErr) {
+                            $("#firstName").addClass("is-invalid"); // Mark field as invalid
+                            $("#firstName").next(".invalid-feedback").text(response.firstNameErr).show(); // Show error message
+                        }else{
+                            $("#firstName").removeClass("is-invalid"); // Remove invalid class if no error
+                        }
+
+                        if (response.middleNameErr) {
+                            $("#middleName").addClass("is-invalid"); // Mark field as invalid
+                            $("#middleName").next(".invalid-feedback").text(response.middleNameErr).show(); // Show error message
+                        }else{
+                            $("#middleName").removeClass("is-invalid"); // Remove invalid class if no error
+                        }
+                    }else if (response.status === "success") {
+                        // On success, hide modal and reset form
+                        $("#form-edit-modal").modal("hide");
+                        $("form")[0].reset(); // Reset the form
+                        // Optionally, reload products to show new entry
+                        memberList();
+                      }
+                }
+            })
+        }
+
+        function fetchSpecificMemberData(memberID) {
+            $.ajax({
+              url: `../student-functions/fetchMemberData.php?id=${memberID}`, // URL for fetching categories
+              type: "POST", // Use GET request
+              dataType: "json", // Expect JSON response
+              success: function (memberData) {
+                $("#lastName").val(memberData.lastName);
+                $("#firstName").val(memberData.firstName);
+                $("#middleName").val(memberData.middleName);
+              },
             });
         }
 
