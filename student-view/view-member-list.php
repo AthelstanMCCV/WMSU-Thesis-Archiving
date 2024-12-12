@@ -32,6 +32,8 @@ $studIDErr = $lastNameErr = $firsTNameErr = $courseErr = "";
       <?php 
         $memberReqData = $groupObj->fetchGroupMembers($_SESSION['account']['ID']);
     ?>
+
+    <a href="../student-functions/addMember.php">Add Member</a>
         <div id="pending-header">
             <img id="pending-title-logo" src="../imgs/student-icon.png" alt="">
             <h4 id="pending-title">Member List</h4>
@@ -53,7 +55,6 @@ $studIDErr = $lastNameErr = $firsTNameErr = $courseErr = "";
                             <th id="pending-headerRow"> Last Name </th>
                             <th id="pending-headerRow"> First Name </th>
                             <th id="pending-headerRow"> Middle Name </th>
-                            <th id="pending-headerRow"> Course </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -64,7 +65,6 @@ $studIDErr = $lastNameErr = $firsTNameErr = $courseErr = "";
                         <td><?php echo $data["lastName"]?></td>
                         <td><?php echo $data["firstName"]?></td>
                         <td><?php if(!empty($data['middleName'])){echo $data["middleName"];}else{echo "N/A";}?></td>
-                        <td><?php echo $data["course"]?></td>
                     </tr>
                 <?php }; ?>
                     </tbody>

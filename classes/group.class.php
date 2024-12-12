@@ -22,11 +22,10 @@ Class Group{
         $this->lastName = cleanInput($_POST['lastName']);
         $this->firstName = cleanInput($_POST['firstName']);
         $this->middleName = cleanInput($_POST['middleName']);
-        $this->course = cleanInput($_POST['course']);
     }
     function addMembers($id){
-        $sql = "INSERT INTO groupmembers (studentID, groupID, lastName, firstName, middleName, course)
-                VALUES (:studentID, :groupID, :lastName, :firstName, :middleName, :course)";
+        $sql = "INSERT INTO groupmembers (studentID, groupID, lastName, firstName, middleName)
+                VALUES (:studentID, :groupID, :lastName, :firstName, :middleName)";
         $qry = $this->db->connect()->prepare($sql);
 
         $qry->bindParam(":studentID", $this->studentID);
@@ -34,7 +33,6 @@ Class Group{
         $qry->bindParam(":lastName", $this->lastName);
         $qry->bindParam(":firstName", $this->firstName);
         $qry->bindParam(":middleName", $this->middleName);
-        $qry->bindParam(":course", $this->course);
 
         return $qry->execute();
     }
