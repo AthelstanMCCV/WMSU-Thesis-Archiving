@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
         // Update session variables for the current thesis
         $_SESSION['currThesis']['ID'] = $thesisID;
         $staffID = $_SESSION['account']['ID'];
-        $_SESSION['currThesis']['status'] = "Rejected";
+        $_SESSION['currThesis']['status'] = 3;
         $_SESSION['currThesis']['groupID'] = $thesisObj->fetchgroupID($thesisID);
 
         // Process the rejection

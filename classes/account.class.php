@@ -135,7 +135,7 @@ require_once __DIR__ . "/db_connection.class.php";
         }
 
         function rejectAccount($id){
-            $sql = "UPDATE accounts SET status='Rejected' WHERE id = :id AND role = 3";
+            $sql = "UPDATE accounts SET status= 3 WHERE id = :id AND role = 3";
             $qry = $this->db->connect()->prepare($sql);
 
             $qry->bindParam(":id", $id);
