@@ -6,6 +6,7 @@ $thesisObj = new Thesis;
 ?>
 
 <?php
+
 if (isset($_SESSION['currThesis']['ID'])){
     if($thesisObj->checkApproval($_SESSION['account']['ID'],$_SESSION['currThesis']['ID'])){ ?>
         
@@ -87,8 +88,17 @@ $(document).ready(function () {
             <?php
                 $thesisData = $thesisObj->fetchAllPendingThesis();
                 foreach($thesisData as $thesis){
-                    $hideActions = $thesisObj->checkApproval($_SESSION['account']['ID'], $thesis['thesisID']) ? 'hide-actions' : '';
-            ?>
+                    $cookieName = "hideActions_" . $thesis['thesisID'];
+
+                    // Determine hideActions value
+                    $hideActions = '';
+                    if (isset($_COOKIE[$cookieName])) {
+                        $hideActions = $_COOKIE[$cookieName];
+                    } else {
+                        $hideActions = $thesisObj->checkApproval($_SESSION['account']['ID'], $thesis['thesisID']) ? 'hide-actions' : '';
+                        setcookie($cookieName, $hideActions, time() + (86400 * 30), "/");
+                    }
+           ?>
             <tr id="pending-data-row">
                 <td><?php echo $thesis["datePublished"]?></td>
                 <td><?php echo $thesis["username"]?></td>
@@ -106,9 +116,11 @@ $(document).ready(function () {
         </tbody>
         <script>
             $(document).ready(function(){
-                // Hide any elements with the 'hide-actions' class
-                $('.hide-actions').hide();
+                $('.action.hide-actions').each(function () {
+                $(this).find('a').remove(); // Remove any action buttons
+                $(this).append('<span style="color: red; font-weight: bold;">No actions available</span>');
             });
+        });
         </script>
     </table>
 </div> 
