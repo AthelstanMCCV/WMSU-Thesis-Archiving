@@ -7,6 +7,8 @@ $thesisObj = new Thesis;
 
 <?php
 
+$currAccountID = $_SESSION['account']['ID'];
+
 if (isset($_SESSION['currThesis']['ID'])){
     if($thesisObj->checkApproval($_SESSION['account']['ID'],$_SESSION['currThesis']['ID'])){ ?>
         
@@ -88,7 +90,7 @@ $(document).ready(function () {
             <?php
                 $thesisData = $thesisObj->fetchAllPendingThesis();
                 foreach($thesisData as $thesis){
-                    $cookieName = "hideActions_" . $thesis['thesisID'];
+                    $cookieName = "hideActions_" . $thesis['thesisID'] . $currAccountID;
 
                     // Determine hideActions value
                     $hideActions = '';
@@ -115,7 +117,20 @@ $(document).ready(function () {
             <?php };?>
         </tbody>
         <script>
+            
             $(document).ready(function(){
+
+                const currentAccountId = '<?php echo $currAccountID; ?>';
+            document.cookie.split(';').forEach(function (cookie) {
+                const match = cookie.trim().match(/^hideActions_(\d+)_([0-9a-zA-Z]+)/); // Regex to match hideActions cookies
+                if (match) {
+                    const thesisId = match[1];
+                    const accountId = match[2];
+                    if (accountId !== currentAccountId) {
+                        document.cookie = `hideActions_${thesisId}_${accountId}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+                    }
+                }
+            });
                 $('.action.hide-actions').each(function () {
                 $(this).find('a').remove(); // Remove any action buttons
                 $(this).append('<span style="color: red; font-weight: bold;">No actions available</span>');
