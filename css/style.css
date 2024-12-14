@@ -347,11 +347,16 @@ td.action {
 
 #modal-body-content{
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
 }
 
 #accountProfile{
     width: 120px;
     height: 120px;
+    margin-right: 20px;
+}
+
+#accountInfo{
+    margin-left: 20px;
 }

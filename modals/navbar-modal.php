@@ -31,10 +31,10 @@
                 </p>
                 <?php if($_SESSION['account']['role'] == 3){ ?>
                     <p><strong>Email: </strong><?php echo $accountData['email'] ?></p>
-                    <p><strong>Department: </strong><?php echo $accountData['departmentName'] ?></p>
-                    <p><strong>Course: </strong><?php echo $accountData['courseName'] ?></p>
+                    <p id="deptcourse"><strong>Department: </strong><?php echo $accountData['departmentName'] ?></p>
+                    <p id="deptcourse"><strong>Course: </strong><?php echo $accountData['courseName'] ?></p>
                 <?php } ?>
-                <p id="Accountstatus"><strong>Status: </strong><span id="AccountstatusText"><?php if($_SESSION['account']['status'] === "Approved"){
+                <p id="Accountstatus"><strong>Status: </strong><span id="AccountstatusText"><?php if($_SESSION['account']['status'] == 2){
                         echo "Active";
                     }?></span>
                 </p>
