@@ -24,6 +24,7 @@ $thesisObj = new Thesis;
             <tr>
                 <th id="pending-headerRow"> Date Added </th>
                 <th id="pending-headerRow"> Thesis ID </th>
+                <th id="pending-headerRow"> Author/s </th>
                 <th id="pending-headerRow"> Advisor Name</th>
                 <th id="pending-headerRow"> Thesis Title </th>
                 <th id="pending-headerRow"> Short Description </th>
@@ -35,11 +36,16 @@ $thesisObj = new Thesis;
         <tbody>
             <?php 
                 $_SESSION['thesisData'] = $thesisObj->fetchThesis($_SESSION['account']['ID']);
+                $authors = $thesisObj->fetchAuthors($_SESSION['account']['ID']);
                 foreach($_SESSION['thesisData'] as $index => $thesis){ 
             ?>
             <tr id="pending-data-row">
+                    
                 <td><?php echo $thesis["datePublished"]?></td>
                 <td><?php echo $thesis["thesisID"]?></td>
+                <td><?php foreach ($authors as $author){
+                    echo $author['lastName'] . ' ' . $author['firstName'] . ' ' . $author['middleName'] . '<br> ' . ' ';
+                    }?></td>
                 <td><?php echo $thesis["advisorName"]?></td>
                 <td><?php echo $thesis["thesisTitle"]?></td>
                 <td><?php echo $thesis["abstract"]?></td>

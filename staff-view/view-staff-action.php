@@ -21,6 +21,7 @@ $thesisactionreqObj = new Thesis;
         <thead>
             <tr>
                 <th id="pending-headerRow"> Group Name </th>
+                <th id="pending-headerRow"> Requested By </th>
                 <th id="pending-headerRow"> Thesis ID </th>
                 <th id="pending-headerRow"> Advisor Name </th>
                 <th id="pending-headerRow"> Thesis Title </th>
@@ -32,15 +33,26 @@ $thesisactionreqObj = new Thesis;
         </thead>
         <tbody>
             <?php
-                $thesisActionReqData = $thesisactionreqObj->fetchThesisEditReq(); 
+                $thesisActionReqData = $thesisactionreqObj->fetchThesisActionReq(); 
                 foreach($thesisActionReqData as $thesis){ 
+            ?>  <tr id="pending-data-row"> 
+                      <td><?php echo $thesis["username"]?></td>
+                      <td><?php echo $thesis["reqName"]?></td>
+                      <td><?php echo $thesis["thesisID"]?></td>
+                       <?php
+                    if ($thesis['action'] == "Edit"){
             ?>
-            <tr id="pending-data-row">
-                <td><?php echo $thesis["username"]?></td>
-                <td><?php echo $thesis["thesisID"]?></td>
+                     <td><?php echo $thesis["reqAdvisor"]?></td>
+                     <td><?php echo $thesis["reqTitle"]?></td>
+                     <td><?php echo $thesis["reqAbs"]?></td>
+                <?php }else{ 
+                    ?>
+            
                 <td><?php echo $thesis["advisorName"]?></td>
                 <td><?php echo $thesis["thesisTitle"]?></td>
                 <td><?php echo $thesis["abstract"]?></td>
+                <?php }?>
+
                 <td><?php echo $thesis["dateRequested"]?></td>
                 <td><?php echo $thesis["action"]?></td>
                 <td id="actions">

@@ -6,6 +6,10 @@ $thesisObj = new Thesis;
 $thesisID= $_GET['id'];
 $currThesisStatus = $thesisObj->fetchThesisStatus($thesisID);
 
+if($_SESSION['account']['studentID']){
+    $studentID = $_SESSION['account']['studentID'];
+}
+
 $thesisObj->clearNotes($thesisID);
 
 if($currThesisStatus != 5 && $currThesisStatus != 4){
@@ -20,7 +24,8 @@ if($currThesisStatus != 5 && $currThesisStatus != 4){
             header("location: ../student/thesis-list");
             exit;
         }
-        $thesisObj->thesisActionReq($status, $action, $thesisID, $groupID);
+        $thesisObj->thesisActionReq($status, $action, $thesisID, $groupID, $studentID);
+        $thesisObj->recordThesis(1, NULL, $action, $studentID, $groupID, $thesisID);
         header("location: ../student/thesis-list");
         exit;
     }

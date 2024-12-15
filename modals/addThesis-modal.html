@@ -1,42 +1,40 @@
 <!-- Modal -->
 <div class="modal fade" id="addThesisModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="staticBackdropLabel">Add Thesis Record</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div> 
-        <form action="" method="post" id="form-add-thesis">
-            <div class="modal-body">
-                <div class="mb-2">
-                    <label for="thesisTitle" class="form-label">Thesis Title</label>
-                    <input type="text" name="thesisTitle" id="thesisTitle" class="form-control" placeholder="Thesis Title">
-                    <div class="invalid-feedback"></div>
-                </div>
-            
-                <div class="mb-2">
-                    <label for="advisorName" class="form-label">Advisor Name</label>
-                    <input type="text" name="advisorName" id="advisorName" class="form-control" placeholder="Advisor Name">
-                    <div class="invalid-feedback"></div>
-                </div>
-            
-                <div class="mb-2">
-                    <label for="shortDesc" class="form-label">Short Description</label>
-                    <input type="text" name="shortDesc" id="shortDesc" class="form-control" placeholder="Short Description">
-                    <div class="invalid-feedback"></div>
-                </div>
-                <div class="mb-2">
-                    <label for="datePublished" class="form-label">Published Date</label>
-                    <input type="date" name="datePublished" id="datePublished" class="form-control" placeholder="Date Published">
-                    <div class="invalid-feedback"></div>
-                </div> 
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Add Thesis Record</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-footer justify-content-center">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-danger brand-bg-color">Add Thesis</button>
-            </div>
+            <form id="form-add-thesis">
+                <div class="modal-body">
+                    <!-- Thesis Title Field -->
+                    <div class="mb-2">
+                        <label for="thesisTitle" class="form-label">Thesis Title</label>
+                        <input type="text" name="thesisTitle" id="thesisTitle" class="form-control" placeholder="Thesis Title">
+                    </div>
 
-        </form>
-      </div>
+                    <!-- Advisor Name Field -->
+                    <div class="mb-2">
+                        <label for="advisorName" class="form-label">Advisor Name</label>
+                        <input type="text" name="advisorName" id="advisorName" class="form-control" placeholder="Advisor Name">
+                    </div>
+                    <!-- Short Description Field -->
+                    <div class="mb-2">
+                        <label for="shortDesc" class="form-label">Short Description</label>
+                        <input type="text" name="shortDesc" id="shortDesc" class="form-control" placeholder="Short Description">
+                    </div>
+                    <!-- Published Date Field -->
+                    <div class="mb-2">
+                        <label for="datePublished" class="form-label">Published Date</label>
+                        <input type="date" name="datePublished" id="datePublished" class="form-control" placeholder="Date Published">
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger brand-bg-color">Add Thesis</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>

@@ -67,13 +67,13 @@ $(document).ready(function () {
 
         function addThesisModal() {
             $.ajax({
-            type: "GET",
-            url: "../modals/addThesis-modal.html",
-            dataType: "html",
+                type: "GET",
+                url: "../modals/addThesis-modal.html",
+                dataType: "html",
                 success: function (view) {
                     $(".modal-container").empty().html(view);
                     $("#addThesisModal").modal("show");
-
+        
                     $("#form-add-thesis").on("submit", function (e) {
                         e.preventDefault(); // Prevent default form submission
                         addThesis(); // Call function to save product
@@ -98,6 +98,13 @@ $(document).ready(function () {
                             $("#thesisTitle").removeClass("is-invalid"); // Remove invalid class if no error
                         }
     
+                        if (response.authorNameErr) {
+                            $("#authorName").addClass("is-invalid"); // Mark field as invalid       
+                            $("#authorName").next(".invalid-feedback").text(response.authorNameErr).show(); // Show error message
+                        }else{
+                            $("#authorName").removeClass("is-invalid"); // Remove invalid class if no error
+                        }
+                            
                         if (response.advisorNameErr) {
                             $("#advisorName").addClass("is-invalid"); // Mark field as invalid
                             $("#advisorName").next(".invalid-feedback").text(response.advisorNameErr).show(); // Show error message
@@ -399,29 +406,102 @@ $(document).ready(function () {
               type: "POST", // Use GET request
               dataType: "json", // Expect JSON response
               success: function (memberData) {
+                $("#username").val(memberData.username);
                 $("#lastName").val(memberData.lastName);
                 $("#firstName").val(memberData.firstName);
                 $("#middleName").val(memberData.middleName);
               },
             });
         }
-
         function showMemberModal() {
             $.ajax({
-            type: "GET",
-            url: "../modals/addMember-modal.html",
-            dataType: "html",
+                type: "GET",
+                url: "../modals/addMember-modal.php",
+                dataType: "html",
                 success: function (view) {
                     $(".modal-container").empty().html(view);
                     $("#addMemberModal").modal("show");
-
+        
+                    // Fetch department data and populate the first Department select
+                    $.ajax({
+                        type: "GET",
+                        url: "../student-functions/fetchDept.php",
+                        dataType: "json",
+                        success: function (data) {
+                            console.log("Department Data: ", data);
+                            const departmentOptions = data.map(
+                                (dept) => `<option value="${dept.departmentName}">${dept.departmentName}</option>`
+                            );
+                            $("select[name='Dept[]']").append(departmentOptions.join(""));
+        
+                            // Attach department change handler to the existing Dept select
+                            attachDeptChangeHandler();
+                        },
+                        error: function () {
+                            console.error("Failed to fetch department data.");
+                        },
+                    });
+        
+                    // Function to attach department change handler
+                    function attachDeptChangeHandler() {
+                        // Use event delegation to handle change events on dynamically added selects
+                        $("select[name='Dept[]']").on("change", function () {
+                            const selectedDept = $(this).val();
+                            console.log("Selected Department: ", selectedDept);
+        
+                            // Fetch and populate courses based on selected department
+                            if (selectedDept) {
+                                $.ajax({
+                                    type: "POST",
+                                    url: "../modals/addMember-modal.php",
+                                    data: { selectedValue: selectedDept },
+                                    dataType: "json",
+                                    success: function (response) {
+                                        console.log("Courses Data: ", response);
+        
+                                        if (response.status === "success") {
+                                            const courseSelect = $("select[name='Course[]']"); // Find the course select
+        
+                                            // Populate the Course select
+                                            if (courseSelect.length > 0) {
+                                                courseSelect.empty(); // Clear previous options
+                                                courseSelect.append('<option value="" hidden>Select Course</option>'); // Default option
+                                                response.data.forEach((course) => {
+                                                    // Append each course
+                                                    courseSelect.append(
+                                                        `<option value="${course.courseName}">${course.courseName}</option>`
+                                                    );
+                                                });
+                                            } else {
+                                                console.error("Course select element not found.");
+                                            }
+                                        } else {
+                                            alert("No courses available for the selected department.");
+                                        }
+                                    },
+                                    error: function () {
+                                        console.error("Failed to fetch course data.");
+                                        alert("Could not load courses for the selected department.");
+                                    },
+                                });
+                            }
+                        });
+                    }
+        
+                    // Handle form submission
                     $("#form-add-modal").on("submit", function (e) {
-                        e.preventDefault(); // Prevent default form submission
-                        addMember(); // Call function to save product
-                      });
-                },
-                });
-        };
+                        e.preventDefault();
+                        addMember(); // Your addMember function
+                    });
+                        
+                }
+            });
+        }
+        
+        
+        
+        
+        
 
         function addMember(){
             $.ajax({
@@ -439,6 +519,18 @@ $(document).ready(function () {
                             $("#studentID").removeClass("is-invalid"); // Remove invalid class if no error
                         }
     
+                        if (response.usernameErr) {
+                            $("#username").addClass("is-invalid"); // Mark field as invalid
+                            $("#username").next(".invalid-feedback").text(response.usernameErr).show(); // Show error message
+                        }else{
+                            $("#username").removeClass("is-invalid"); // Remove invalid class if no error
+                        }
+                        if (response.passwordErr) {
+                            $("#password").addClass("is-invalid"); // Mark field as invalid
+                            $("#password").next(".invalid-feedback").text(response.passwordErr).show(); // Show error message
+                        }else{
+                            $("#password").removeClass("is-invalid"); // Remove invalid class if no error
+                        }
                         if (response.lastNameErr) {
                             $("#lastName").addClass("is-invalid"); // Mark field as invalid
                             $("#lastName").next(".invalid-feedback").text(response.lastNameErr).show(); // Show error message
@@ -453,12 +545,6 @@ $(document).ready(function () {
                             $("#firstName").removeClass("is-invalid"); // Remove invalid class if no error
                         }
 
-                        if (response.middleNameErr) {
-                            $("#middleName").addClass("is-invalid"); // Mark field as invalid
-                            $("#middleName").next(".invalid-feedback").text(response.middleNameErr).show(); // Show error message
-                        }else{
-                            $("#middleName").removeClass("is-invalid"); // Remove invalid class if no error
-                        }
                     }else if (response.status === "success") {
                         // On success, hide modal and reset form
                         $("#addMemberModal").modal("hide");

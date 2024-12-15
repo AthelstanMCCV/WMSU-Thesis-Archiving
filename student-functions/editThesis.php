@@ -6,6 +6,9 @@ $ediThesisObj = new Thesis;
 $thesisID = $_GET['id'];
 $action = 'Edit';
 $status = 4;
+if($_SESSION['account']['studentID']){
+    $studentID = $_SESSION['account']['studentID'];
+}
 
 $ediThesisObj->clearNotes($thesisID);
 // Fetch the thesis data
@@ -14,7 +17,8 @@ $currThesisData = $ediThesisObj->fetchSpecificThesis($thesisID);
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         // Perform actions
-        $ediThesisObj->thesisActionReq($status,$action, $thesisID, $_SESSION['account']['ID']);
+        $ediThesisObj->thesisActionReq($status,$action, $thesisID, $_SESSION['account']['ID'], $studentID);
+        $ediThesisObj->recordThesis(1, NULL,$action,$studentID,$_SESSION['account']['ID'],$thesisID);
         $ediThesisObj->cleanThesis();
 
         // Retrieve form data
@@ -57,7 +61,7 @@ $currThesisData = $ediThesisObj->fetchSpecificThesis($thesisID);
             exit;
         }
         if (empty($titleErr) && empty($datePublishedErr)) {
-            $ediThesisObj->reqeditThesis($thesisID, $groupID);
+            $ediThesisObj->reqeditThesis($thesisID, $groupID, $studentID);
                 header('Content-Type: application/json');
                 echo json_encode(['status' => 'success']);
                 exit;

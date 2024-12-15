@@ -51,6 +51,7 @@ $studIDErr = $lastNameErr = $firsTNameErr = "";
                         <tr>
                             <th id="pending-headerRow"> Student ID </th>
                             <th id="pending-headerRow"> Group Name </th>
+                            <th id="pending-headerRow"> Username </th>
                             <th id="pending-headerRow"> Last Name </th>
                             <th id="pending-headerRow"> First Name </th>
                             <th id="pending-headerRow"> Middle Name </th>
@@ -61,6 +62,7 @@ $studIDErr = $lastNameErr = $firsTNameErr = "";
                 <?php foreach($memberReqData as $data){ ?>
                     <tr id="pending-data-row">
                         <td><?php echo $data["studentID"] ?></td>
+                        <td><?php echo $data["accName"]?></td>
                         <td><?php echo $data["username"]?></td>
                         <td><?php echo $data["lastName"]?></td>
                         <td><?php echo $data["firstName"]?></td>

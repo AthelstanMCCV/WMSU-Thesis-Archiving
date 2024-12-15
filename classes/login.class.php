@@ -37,6 +37,7 @@ require_once __DIR__ . "/db_connection.class.php";
                 }
             }
             if (!$data){
+
                 $sqlstaff = "SELECT staffaccounts.ID, staffaccounts.username, staffaccounts.password, accounts.role, accounts.status FROM staffaccounts
                              LEFT JOIN accounts ON staffaccounts.ID = accounts.ID
                              WHERE staffaccounts.username = :username ";
@@ -49,6 +50,22 @@ require_once __DIR__ . "/db_connection.class.php";
 
                 if ($datastaff && password_verify($this->password, $datastaff['password'])){
                     return $datastaff;
+                }
+
+                if (!$datastaff){
+                    $sqlstudent = "SELECT groupmembers.studentID, groupmembers.username, groupmembers.password, lastName, firstName, middleName FROM groupmembers
+                             LEFT JOIN accounts ON groupmembers.groupID = accounts.ID
+                             WHERE groupmembers.username = :username ";
+                $qrystudent = $this->db->connect()->prepare($sqlstudent);
+                
+                $qrystudent->bindParam(":username", $this->username);
+                $qrystudent->execute();
+
+                $datastudent = $qrystudent->fetch();
+
+                if ($datastudent && password_verify($this->password, $datastudent['password'])){
+                    return $datastudent;
+                }
                 }
 
             }
@@ -78,6 +95,19 @@ require_once __DIR__ . "/db_connection.class.php";
                 if ($datastaff = $qrystaff->fetch(PDO::FETCH_ASSOC)){
                     return $datastaff;
                 }
+
+                $sqlstudent = "SELECT studentID, groupID as ID,status, role, username, password, lastName, firstName, middleName FROM groupmembers WHERE username = :username";
+                $qrystudent = $this->db->connect()->prepare($sqlstudent);
+                
+                $qrystudent->bindParam(":username", $this->username);
+                $qrystudent->execute();
+
+                if ($datastudent = $qrystudent->fetch(PDO::FETCH_ASSOC)){
+                    return $datastudent;
+                }
+
+
+
             return null;
 
         }
@@ -100,7 +130,7 @@ require_once __DIR__ . "/db_connection.class.php";
             $qry->bindParam(":deptName", $deptName);
             $qry->execute();
 
-            $data = $qry->fetch(PDO::FETCH_ASSOC);
+            $data = $qry->fetchColumn();
 
             return $data;
         }

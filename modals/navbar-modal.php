@@ -39,7 +39,7 @@
                     }?></span>
                 </p>
             </div>
-        </div>
+        </div>  
         <div class="modal-footer justify-content-center">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         <button type="button" class="btn btn-danger" ><a id="modalButton" class="text-white" href="../account/logout.php">Logout</a></button>

@@ -360,3 +360,18 @@ td.action {
 #accountInfo{
     margin-left: 20px;
 }
+
+#addMemberModal{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.modal-content1{
+    margin-right: 10px;
+    width: 50%;
+}
+
+.modal-content2{
+    margin-left: 10px;
+    width: 50%;
+}

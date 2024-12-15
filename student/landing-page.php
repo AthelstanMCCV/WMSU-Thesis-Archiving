@@ -45,23 +45,46 @@ if (isset($_POST['searchAndSort'])) {
         <?php 
     if(!isset($_POST['searchAndSort'])){
         $thesisData = $landingPageObj->fetchAllApprovedThesis();
-        foreach ($thesisData as $thesis){?>
+        foreach ($thesisData as $thesis){
+            $authors = $landingPageObj->fetchAuthors($thesis['groupID']);
+            $comma;
+            ?>
        
             <div class="thesis-card">
             <h2><?php echo $thesis['thesisTitle']; ?></h2>
-            <p><strong>By <?php echo $thesis['username']; ?> - <?php echo $thesis['datePublished']; ?> - <?php echo $thesis['advisorName']; ?></strong></p>
-            <p>. <?php echo $thesis['abstract']; ?> .</p>
+            <p><strong>By 
+<?php 
+foreach ($authors as $index => $author) {
+    echo $author['lastName'];
+    if ($index < count($authors) - 1) {
+        echo ", "; // Add a comma unless it's the last author
+    }
+}
+?> 
+- <?php echo $thesis['datePublished']; ?> - <?php echo $thesis['advisorName']; ?></strong></p>
+
             </div>
         <?php }}?>
 
         <?php 
     if(isset($_POST['searchAndSort'])){
-        foreach ($thesisData as $thesis){?>
-       
+        foreach ($thesisData as $thesis){
+            $authors = $landingPageObj->fetchAuthors($thesis['groupID']);
+            ?>
+        
             <div class="thesis-card">
             <h2><?php echo $thesis['thesisTitle']; ?></h2>
-            <p><strong>By <?php echo $thesis['username']; ?> - <?php echo $thesis['datePublished']; ?> - <?php echo $thesis['advisorName']; ?></strong></p>
-            <p>. <?php echo $thesis['abstract']; ?> .</p>
+            <p><strong>By 
+<?php 
+foreach ($authors as $index => $author) {
+    echo $author['lastName'];
+    if ($index < count($authors) - 1) {
+        echo ", "; // Add a comma unless it's the last author
+    }
+}
+?> 
+- <?php echo $thesis['datePublished']; ?> - <?php echo $thesis['advisorName']; ?></strong></p>
+
             </div>
         <?php }}?>
     <div class="modal-container"></div>

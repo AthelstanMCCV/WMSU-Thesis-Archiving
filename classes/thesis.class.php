@@ -6,8 +6,10 @@ Class Thesis{
     public $thesisID;
     public $thesisTitle;
     public $datePublished;
+    public $authorID;
     public $advisorName;
     public $shortDesc;
+
 
     protected $db;
     function __construct(){
@@ -21,29 +23,46 @@ Class Thesis{
         $this->shortDesc = cleanInput($_POST['shortDesc']);
     }
 
-    function addThesis($groupID){
-        $sql = "INSERT INTO thesis (thesisTitle, datePublished, advisorName, abstract, groupID)
-                VALUES (:thesisTitle, :datePublished, :advisorName, :shortDesc, :groupID)";
+    function addThesis($groupID, $studentID){
+        $sql = "INSERT INTO thesis (thesisTitle, addedBy, datePublished, advisorName, abstract, groupID)
+                VALUES (:thesisTitle, :studentID, :datePublished, :advisorName, :shortDesc, :groupID)";
         $qry = $this->db->connect()->prepare($sql);
 
         $qry->bindParam(":thesisTitle", $this->thesisTitle);
         $qry->bindParam(":datePublished", $this->datePublished);
+        $qry->bindParam(":studentID", $studentID);
         $qry->bindParam(":advisorName", $this->advisorName);
         $qry->bindParam(":shortDesc", $this->shortDesc);
         $qry->bindParam(":groupID", $groupID);
 
         return $qry->execute();
     }
+
+    function fetchAuthors($groupID){
+        $sql = "SELECT lastName, firstName, middleName from author
+        LEFT JOIN groupmembers ON author.groupID = groupmembers.groupID
+        WHERE author.groupID = :groupID";
+        $qry = $this->db->connect()->prepare($sql);
+
+        $qry->bindParam(":groupID", $groupID);
+
+        $qry->execute();
+        
+        $data = $qry->fetchAll(PDO::FETCH_ASSOC);
+
+        return $data;
+    }
     
     function fetchThesis($groupID){
-        $sql = "SELECT *, statusName from thesis LEFT JOIN status ON thesis.status = status.statusID WHERE groupID = :groupID" ;
+        $sql = "SELECT *, statusName from thesis LEFT JOIN status ON thesis.status = status.statusID
+         WHERE thesis.groupID = :groupID";
         $qry = $this->db->connect()->prepare($sql);
 
         $qry->bindParam(":groupID", $groupID);
 
         $qry->execute();
         $data = $qry->fetchAll(PDO::FETCH_ASSOC);
-
+        
         return $data;
     }
 
@@ -260,15 +279,18 @@ Class Thesis{
     
 }
 
-    function recordThesis($staffID = NULL, $groupID, $thesisID){
-        $sql2 = "INSERT INTO thesislogs (staffID, groupID, thesisID)
-                VALUES (:staffID, :groupID, :thesisID)";
+    function recordThesis($status = NULL, $staffID = NULL, $action = NULL, $studentID = NULL, $groupID, $thesisID){
+        $sql2 = "INSERT INTO thesislogs (status, staffID, groupID, thesisID, action, studentID)
+                VALUES (:status, :staffID, :groupID, :thesisID, :action, :studentID)";
 
         $qry2 = $this->db->connect()->prepare($sql2);
 
         $qry2->bindParam(":staffID", $staffID);
+        $qry2->bindParam(":status", $status);
         $qry2->bindParam(":groupID", $groupID);
         $qry2->bindParam(":thesisID", $thesisID);
+        $qry2->bindParam(":action", $action);
+        $qry2->bindParam(":studentID", $studentID);
         return $qry2->execute();
     }
 
@@ -295,7 +317,7 @@ Class Thesis{
     }
 
     function fetchThesisLogs($groupID){
-        $sql = "SELECT approvalID, accounts.username, thesisTitle, status.statusName, actionDate  from thesislogs LEFT JOIN thesis
+        $sql = "SELECT approvalID, accounts.username, thesisTitle, status.statusName, action, actionDate  from thesislogs LEFT JOIN thesis
                 ON thesislogs.thesisID = thesis.thesisID
                 LEFT JOIN accounts ON thesislogs.staffID = accounts.ID
                 LEFT JOIN staffaccounts ON thesislogs.staffID = staffaccounts.ID
@@ -310,11 +332,13 @@ Class Thesis{
         return $data;
     }
 
-    function fetchThesisEditReq(){
-        $sql = "SELECT thesisActionReqID, username, thesiseditreq.advisorName, thesis.thesisID, thesiseditreq.thesisTitle, thesiseditreq.abstract, dateRequested, action FROM thesiseditreq 
-                LEFT JOIN accounts ON groupID = accounts.ID
-                LEFT JOIN thesisactionreq ON thesiseditreq.thesisID = thesisactionreq.thesisID
-                LEFT JOIN thesis ON thesis.thesisID = thesiseditreq.thesisID";
+    function fetchThesisActionReq(){
+        $sql = "SELECT thesisActionReqID, accounts.username, CONCAT(groupmembers.lastName, ' ' ,groupmembers.firstName) as reqName, thesiseditreq.thesisTitle as reqTitle,
+                thesiseditreq.advisorName as reqAdvisor, thesiseditreq.abstract as reqAbs,  thesis.thesisID, thesis.advisorName, thesis.thesisTitle, thesis.abstract, thesisactionreq.dateRequested, action FROM thesisactionreq
+                LEFT JOIN accounts ON accounts.ID = thesisactionreq.groupID
+                LEFT JOIN thesis ON thesisactionreq.thesisID = thesis.thesisID
+                LEFT JOIN groupmembers ON groupmembers.studentID = thesisactionreq.studentID
+                LEFT JOIN thesiseditreq ON thesiseditreq.thesisID = thesisactionreq.thesisID";
         $qry = $this->db->connect()->prepare($sql);
 
         $qry->execute();
@@ -374,7 +398,7 @@ Class Thesis{
             return $qry->execute();
     }
 
-    function thesisActionReq($status, $action, $thesisID, $groupID){
+    function thesisActionReq($status, $action = NULL, $thesisID, $groupID, $studentID = NULL){
 
         $sql = "UPDATE thesis SET status = :status WHERE thesisID = :thesisID";
         $qry = $this->db->connect()->prepare($sql);
@@ -384,21 +408,22 @@ Class Thesis{
 
         $qry->execute();
 
-            $sql2 = "INSERT INTO thesisactionreq (groupID, thesisID, action)
-            VALUES (:groupID, :thesisID, :action)";
+            $sql2 = "INSERT INTO thesisactionreq (groupID, thesisID, action, studentID)
+            VALUES (:groupID, :thesisID, :action, :studentID)";
 
             $qry2 = $this->db->connect()->prepare($sql2);
 
             $qry2->bindParam(":groupID", $groupID);
             $qry2->bindParam(":thesisID", $thesisID);
             $qry2->bindParam(":action", $action);
+            $qry2->bindParam(":studentID", $studentID);
 
             return $qry2->execute();
     }
 
-    function reqeditThesis($thesisID, $groupID){
-        $sql = "INSERT INTO thesiseditreq (thesisID, thesisTitle, advisorName, abstract, datePublished, groupID)
-                VALUES (:thesisID, :thesisTitle,:advisorName, :shortDesc, :datePublished, :groupID)";
+    function reqeditThesis($thesisID, $groupID, $studentID){
+        $sql = "INSERT INTO thesiseditreq (thesisID, thesisTitle, advisorName, abstract, datePublished, groupID, studentID)
+                VALUES (:thesisID, :thesisTitle,:advisorName, :shortDesc, :datePublished, :groupID, :studentID)";
         $qry = $this->db->connect()->prepare($sql);
 
         $qry->bindParam(":thesisID", $thesisID);
@@ -407,6 +432,7 @@ Class Thesis{
         $qry->bindParam(":advisorName", $this->advisorName);
         $qry->bindParam(":shortDesc", $this->shortDesc);
         $qry->bindParam(":groupID", $groupID);
+        $qry->bindParam(":studentID", $studentID);
 
         $qry->execute();
     }
@@ -470,7 +496,7 @@ Class Thesis{
     }
 
     function searchAndSortApprovedTheses($searchTerm) {
-        $sql = "SELECT thesis.datePublished, accounts.username, thesis.advisorName, thesis.thesisTitle, thesis.abstract
+        $sql = "SELECT thesis.datePublished, accounts.username, thesis.advisorName, thesis.thesisTitle, thesis.abstract, thesis.groupID
                 FROM thesis
                 LEFT JOIN accounts ON thesis.groupID = accounts.ID WHERE (thesisTitle LIKE :searchTerm OR advisorName LIKE :searchTerm) AND thesis.STATUS = 2";
             

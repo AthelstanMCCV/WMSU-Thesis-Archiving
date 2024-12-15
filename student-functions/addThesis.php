@@ -5,12 +5,17 @@ require_once "../tools/functions.php";
 
 $thesisObj = new Thesis;
 
+if($_SESSION['account']['studentID']){
+    $studentID = $_SESSION['account']['studentID'];
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     $thesisObj->cleanThesis();
 
     $thesisTitle = $thesisObj->thesisTitle;
     $datePublished = $thesisObj->datePublished;
+    $authorID = $thesisObj->authorID;
     $advisorName = $thesisObj->advisorName;
     $abstract = $thesisObj->shortDesc;
     
@@ -39,9 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     }
 
     if(empty($titleErr) && empty($advisorNameErr) && empty($abstractErr)){
-        $thesisObj->addThesis($groupID);
+        $thesisObj->addThesis($groupID, $studentID);
         $currThesis = $thesisObj->fetchThesisID($thesisTitle);
-        $thesisObj->recordThesis(NULL, $_SESSION['account']['ID'], $currThesis);
+        $thesisObj->recordThesis(1, NULL, NULL, NULL, $_SESSION['account']['ID'], $currThesis);
         header('Content-Type: application/json');
         echo json_encode(['status' => 'success']);
         exit;

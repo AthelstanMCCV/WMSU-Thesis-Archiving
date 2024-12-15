@@ -6,10 +6,17 @@ Class Group{
 
     public $studentID;
     public $groupID;
+
+    public $username;
+    
+    public $password;
+
     public $lastName;
     public $firstName;
     public $middleName;
 
+    public $courseID;
+    public $deptID;
     protected $db;
 
     function __construct(){
@@ -17,7 +24,9 @@ Class Group{
     }
 
     function cleanMembers(){
-        $this->studentID = cleanInput($_POST['studentID']);
+        $this->studentID = cleanInput($_POST['studentID']);         
+        $this->username = cleanInput($_POST['username']);
+        $this->password = cleanInput($_POST['password']);
         $this->lastName = cleanInput($_POST['lastName']);
         $this->firstName = cleanInput($_POST['firstName']);
         $this->middleName = cleanInput($_POST['middleName']);
@@ -25,25 +34,42 @@ Class Group{
 
     function editCleanMembers(){
         $this->lastName = cleanInput($_POST['lastName']);
+        $this->username = cleanInput($_POST['username']);
+        $this->password = cleanInput($_POST['password']);
         $this->firstName = cleanInput($_POST['firstName']);
         $this->middleName = cleanInput($_POST['middleName']);
     }
-    function addMembers($id){
-        $sql = "INSERT INTO groupmembers (studentID, groupID, lastName, firstName, middleName)
-                VALUES (:studentID, :groupID, :lastName, :firstName, :middleName)";
+    function addMembers($id, $courseID, $deptID){
+        $sql = "INSERT INTO groupmembers (studentID, groupID, username, password, lastName, firstName, middleName)
+                VALUES (:studentID, :groupID, :username, :password, :lastName, :firstName, :middleName)";
         $qry = $this->db->connect()->prepare($sql);
+
+        $hashPass = password_hash($this->password, PASSWORD_DEFAULT);
 
         $qry->bindParam(":studentID", $this->studentID);
         $qry->bindParam(":groupID", $id);
+        $qry->bindParam(":username", $this->username);
+        $qry->bindParam(":password", $hashPass);
         $qry->bindParam(":lastName", $this->lastName);
         $qry->bindParam(":firstName", $this->firstName);
         $qry->bindParam(":middleName", $this->middleName);
 
-        return $qry->execute();
+            $qry->execute();
+
+            $sql2 = "INSERT INTO author (groupID, studentID,  departmentID, coursesID)
+                    VALUES (:groupID, :studentID, :departmentID, :courseID)";
+            $qry2 = $this->db->connect()->prepare($sql2);
+
+            $qry2->bindParam(":groupID", $id);
+            $qry2->bindParam(":studentID", $this->studentID);
+            $qry2->bindParam(":departmentID", $deptID);
+            $qry2->bindParam(":courseID", $courseID);
+
+            return $qry2->execute();
     }
 
     function fetchMemberData($ID){
-        $sql = "SELECT * from groupmembers WHERE studentID = :ID";
+        $sql = "SELECT *  from groupmembers WHERE studentID = :ID";
         $qry = $this->db->connect()->prepare($sql);
 
         $qry->bindParam(":ID", $ID);
@@ -65,10 +91,14 @@ Class Group{
     }
 
     function editMembers($ID){
-        $sql = "UPDATE groupmembers SET lastName = :lastName, firstName = :firstName, middleName = :middleName WHERE studentID = :ID";
+        $sql = "UPDATE groupmembers SET username = :username, password = :password, lastName = :lastName, firstName = :firstName, middleName = :middleName WHERE studentID = :ID";
         $qry = $this->db->connect()->prepare($sql);
         
+        $hashPass = password_hash($this->password, PASSWORD_DEFAULT);
+
         $qry->bindParam(":ID", $ID);
+        $qry->bindParam(":username", $this->username);  
+        $qry->bindParam(":password",$hashPass);
         $qry->bindParam(":lastName", $this->lastName);
         $qry->bindParam(":firstName", $this->firstName);
         $qry->bindParam(":middleName", $this->middleName);
@@ -77,7 +107,7 @@ Class Group{
     }
 
     function fetchGroupMembers($groupID){
-        $sql = "SELECT studentID, accounts.username, lastName, firstName, middleName
+        $sql = "SELECT studentID, accounts.username as accName, groupmembers.username, lastName, firstName, middleName
             from groupmembers LEFT JOIN accounts
             ON groupmembers.groupID = accounts.ID
             WHERE groupID = :groupID";

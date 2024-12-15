@@ -25,6 +25,7 @@ $thesisApproveObj = new Thesis;
                         <th id="pending-headerRow"> Staff </th>
                         <th id="pending-headerRow"> Thesis Name </th>
                         <th id="pending-headerRow"> Status </th>
+                        <th id="pending-headerRow"> Action </th>
                         <th id="pending-headerRow"> Action Date </th>
                     </tr>
                 </thead>
@@ -35,6 +36,7 @@ $thesisApproveObj = new Thesis;
                 <td><?php echo $data["username"]?></td>
                 <td><?php echo $data["thesisTitle"]?></td>
                 <td><?php echo $data["statusName"]?></td>
+                <td><?php echo $data["action"]?></td>
                 <td><?php echo $data["actionDate"]?></td>
             </tr>
     <?php }; ?>
