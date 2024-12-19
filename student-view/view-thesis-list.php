@@ -44,7 +44,7 @@ $thesisObj = new Thesis;
                 <td><?php echo $thesis["datePublished"]?></td>
                 <td><?php echo $thesis["thesisID"]?></td>
                 <td><?php foreach ($authors as $author){
-                    echo $author['lastName'] . ' ' . $author['firstName'] . ' ' . $author['middleName'] . '<br> ' . ' ';
+                    echo $author['lastName'] . '<br> ' . ' ';
                     }?></td>
                 <td><?php echo $thesis["advisorName"]?></td>
                 <td><?php echo $thesis["thesisTitle"]?></td>
