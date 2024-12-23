@@ -39,7 +39,7 @@ Class Thesis{
     }
 
     function fetchAuthors($groupID){
-        $sql = "SELECT lastName, firstName, middleName from author
+        $sql = "SELECT DISTINCT lastName, firstName, middleName from author
         LEFT JOIN groupmembers ON author.groupID = groupmembers.groupID
         WHERE author.groupID = :groupID";
         $qry = $this->db->connect()->prepare($sql);
