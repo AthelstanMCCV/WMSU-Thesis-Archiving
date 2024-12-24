@@ -43,10 +43,6 @@ if (isset($_SESSION['currThesis']['ID'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thesis List</title>
-    <style>
-        <?php require_once "../css/request-account.css"; ?>
-    </style>
-    <script src="../vendor/jquery-3.7.1/jquery-3.7.1.min.js"></script>
 </head>
 <body>
     <div id="pending-header">
@@ -65,14 +61,14 @@ if (isset($_SESSION['currThesis']['ID'])) {
         <table id="staff-thesis-list" class="table table-hover align-middle">
             <thead>
                 <tr>
-                    <th>Date Published</th>
-                    <th>Group Name</th>
-                    <th>Advisor Name</th>
-                    <th>Thesis ID</th>
-                    <th>Thesis Title</th>
-                    <th>Description</th>
-                    <th>Status</th>
-                    <th>Actions</th>
+                    <th id="pending-headerRow">Date Published</th>
+                    <th id="pending-headerRow">Group Name</th>
+                    <th id="pending-headerRow">Advisor Name</th>
+                    <th id="pending-headerRow">Thesis ID</th>
+                    <th id="pending-headerRow">Thesis Title</th>
+                    <th id="pending-headerRow">Description</th>
+                    <th id="pending-headerRow">Status</th>
+                    <th id="pending-headerRow">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -83,7 +79,7 @@ if (isset($_SESSION['currThesis']['ID'])) {
                     $hideActions = isset($_COOKIE[$cookieName]) ? $_COOKIE[$cookieName] : ($thesisObj->checkApproval($currAccountID, $thesis['thesisID']) ? 'hide-actions' : '');
                     setcookie($cookieName, $hideActions, time() + (86400 * 30), "/");
                 ?>
-                <tr>
+                <tr id="pending-data-row">
                     <td><?php echo $thesis["datePublished"]; ?></td>
                     <td><?php echo $thesis["username"]; ?></td>
                     <td><?php echo $thesis["advisorName"]; ?></td>
@@ -107,18 +103,19 @@ if (isset($_SESSION['currThesis']['ID'])) {
 
     <script>
         $(document).ready(function() {
-            const currentAccountId = '<?php echo $currAccountID; ?>';
-            document.cookie.split(';').forEach(function(cookie) {
-                const match = cookie.trim().match(/^hideActions_(\d+)_([0-9a-zA-Z]+)/);
-                if (match) {
-                    const thesisId = match[1];
-                    const accountId = match[2];
-                    if (accountId !== currentAccountId) {
-                        document.cookie = hideActions_${thesisId}_${accountId}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;;
-                    }
-                }
-            });
-        });
+    const currentAccountId = <?php echo json_encode($currAccountID); ?>;
+    document.cookie.split(';').forEach(function(cookie) {
+        const match = cookie.trim().match(/^hideActions_(\d+)_([0-9a-zA-Z]+)/);
+        if (match) {
+            const thesisId = match[1];
+            const accountId = match[2];
+            if (accountId && accountId !== currentAccountId) {
+                document.cookie = `hideActions_${thesisId}_${accountId}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=example.com; secure;`;
+            }
+        }
+    });
+});
+
     </script>
 </body>
 </html>
