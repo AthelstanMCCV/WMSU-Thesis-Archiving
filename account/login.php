@@ -40,14 +40,6 @@ if (isset($_POST['submit']) && $_SERVER['REQUEST_METHOD'] == "POST"){
 }
 ?>
 
-<!-- DEFAULT ADMIN CREDENTIALS:
-username: hans123
-password: admin 
-
-Documentation:
-    - all infos on the account stored in session, role handling is handled in session.
--->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
