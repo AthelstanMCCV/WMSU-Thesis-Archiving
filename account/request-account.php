@@ -35,7 +35,7 @@ if (isset($_POST['submit']) && $_SERVER['REQUEST_METHOD'] == "POST"){
 if (isset($_POST['selectedValue']) && $_SERVER['REQUEST_METHOD'] == "POST"){
     $selectedDept = $_POST['selectedValue'];
     $selectedDeptID = $loginObj->findDeptID($selectedDept);
-    $coursesData = $loginObj->getCourses($selectedDeptID['departmentID']);
+    $coursesData = $loginObj->getCourses($selectedDeptID);
     
     echo json_encode(["status" => "success", "data" => $coursesData]);
     exit;
