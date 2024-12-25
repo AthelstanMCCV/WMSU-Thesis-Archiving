@@ -6,7 +6,7 @@ The WMSU Thesis Archiving System is a centralized platform designed to manage an
 ## Features
 - **Thesis Submission:** Upload and store thesis documents.
 - **Search Functionality:** Easily find theses by title, author, or year.
-- **User Management:** Role-based access for administrators, faculty, and students.
+- **User Management:** Role-based access for administrators, staff, and students.
 - **Document Security:** Controlled access to protect sensitive information.
 
 ## Technologies Used
