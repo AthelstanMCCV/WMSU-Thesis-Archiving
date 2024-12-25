@@ -16,7 +16,7 @@ The WMSU Thesis Archiving System is a centralized platform designed to manage an
 - **Server:** XAMPP
 
 ## INSTRUCTIONS FOR TESTING
-  ## CREDENTIALS
+  # CREDENTIALS
 - Admin Account:
   > account: admin
   > password: admin
@@ -28,7 +28,7 @@ The WMSU Thesis Archiving System is a centralized platform designed to manage an
     > account: schoolib
     >password: admin
 
-  ## PROCEDURE
+  # PROCEDURE
 - Request a group account via the 'Request an Account' page
 - The admin will need to approve the requested account
 - Once the group account has been approved, within the account, member accounts should be created for each member of the group
