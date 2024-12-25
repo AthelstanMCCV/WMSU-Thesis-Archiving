@@ -18,15 +18,12 @@ The WMSU Thesis Archiving System is a centralized platform designed to manage an
 ## User Account Features
 
 ### Admin
-- **Manage Group Accounts:** Create, update, and delete group accounts to ensure proper organization and access control.
+- **Manage Group Accounts:** Create group accounts to ensure proper organization and access control.
 - **Account Request Management:** Review and approve or decline account requests from new users or groups to maintain system integrity.
-- **Audit Logs:** View logs of user activity for monitoring and security purposes.
-- **System Configuration:** Manage system settings, including permissions and global preferences.
 
 ### Staff
 - **Thesis Submission Review:** Approve or decline thesis submissions based on quality and compliance with university guidelines.
 - **Edit and Delete Requests:** Evaluate and approve or reject requests for modifications or removal of theses to ensure data accuracy and integrity.
-- **Reporting Tools:** Generate reports on thesis submissions, user activity, and system status for administrative purposes.
 
 ### Group
 - **Thesis Submission:** Submit theses for review, ensuring they meet all required guidelines and standards.
@@ -45,7 +42,7 @@ The WMSU Thesis Archiving System is a centralized platform designed to manage an
     > password: admin
   * School Library
     > account: schoolib
-    >password: admin
+    > password: admin
 
   ### PROCEDURE
 - Request a group account via the 'Request an Account' page
