@@ -48,5 +48,10 @@ The WMSU Thesis Archiving System is a centralized platform designed to manage an
 - Request a group account via the 'Request an Account' page
 - The admin will need to approve the requested account
 - Once the group account has been approved, within the account, member accounts should be created for each member of the group
-- Proceed with exploring the studnet functions (Add, Edit, Delete Thesis)
+- Proceed with exploring the student functions (Add, Edit, Delete Thesis)
+
+
+## ADDITIONAL INSTRUCTIONS
+- For a thesis to be submitted, the approval of both staff accounts (School Library and City Library) is required
+
 
