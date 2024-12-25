@@ -15,8 +15,27 @@ The WMSU Thesis Archiving System is a centralized platform designed to manage an
 - **Database:** MySQL
 - **Server:** XAMPP
 
+## User Account Features
+
+### Admin
+- **Manage Group Accounts:** Create, update, and delete group accounts to ensure proper organization and access control.
+- **Account Request Management:** Review and approve or decline account requests from new users or groups to maintain system integrity.
+- **Audit Logs:** View logs of user activity for monitoring and security purposes.
+- **System Configuration:** Manage system settings, including permissions and global preferences.
+
+### Staff
+- **Thesis Submission Review:** Approve or decline thesis submissions based on quality and compliance with university guidelines.
+- **Edit and Delete Requests:** Evaluate and approve or reject requests for modifications or removal of theses to ensure data accuracy and integrity.
+- **Reporting Tools:** Generate reports on thesis submissions, user activity, and system status for administrative purposes.
+
+### Group
+- **Thesis Submission:** Submit theses for review, ensuring they meet all required guidelines and standards.
+- **Data Request:** Request access to specific thesis data for academic or research purposes, subject to approval.
+- **Status Monitoring:** View the current status of submitted theses, including approval progress and reviewer comments.
+- **Activity Logs:** Track changes and updates related to submitted theses for transparency and accountability.
+
 ## INSTRUCTIONS FOR TESTING
-  # CREDENTIALS
+  ### CREDENTIALS
 - Admin Account:
   > account: admin
   > password: admin
@@ -28,7 +47,7 @@ The WMSU Thesis Archiving System is a centralized platform designed to manage an
     > account: schoolib
     >password: admin
 
-  # PROCEDURE
+  ### PROCEDURE
 - Request a group account via the 'Request an Account' page
 - The admin will need to approve the requested account
 - Once the group account has been approved, within the account, member accounts should be created for each member of the group
