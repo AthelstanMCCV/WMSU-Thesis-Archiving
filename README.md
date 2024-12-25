@@ -34,6 +34,3 @@ The WMSU Thesis Archiving System is a centralized platform designed to manage an
 - Once the group account has been approved, within the account, member accounts should be created for each member of the group
 - Proceed with exploring the studnet functions (Add, Edit, Delete Thesis)
 
-
-- 
-
