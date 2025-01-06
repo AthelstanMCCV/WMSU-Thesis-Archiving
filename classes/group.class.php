@@ -82,12 +82,21 @@ Class Group{
     }
 
     function deleteMember($ID){
+
+        $sql2 = "DELETE FROM author WHERE studentID = :ID";
+        $qry2 = $this->db->connect()->prepare($sql2);
+
+        $qry2->bindParam(":ID", $ID);
+
+        $qry2->execute();
+
         $sql = "DELETE FROM groupmembers WHERE studentID = :ID";
         $qry = $this->db->connect()->prepare($sql);
 
         $qry->bindParam(":ID", $ID);
 
         return $qry->execute();
+
     }
 
     function editMembers($ID){
